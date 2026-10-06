@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IKDA LIVE - Create Account</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at top,
+          rgba(212,175,55,.12),
+          transparent 35%
+        ),
+        #06140f;
+
+      color: white;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 25px 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 470px;
+    }
+
+    /* LOGO */
+
+    .logo {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .logo-circle {
+      width: 72px;
+      height: 72px;
+
+      margin: auto;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #d4af37,
+          #987718
+        );
+
+      color: #06140f;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-weight: bold;
+      font-size: 22px;
+
+      box-shadow:
+        0 0 30px rgba(212,175,55,.25);
+    }
+
+    .logo h1 {
+      color: #d4af37;
+
+      margin-top: 10px;
+
+      font-size: 28px;
+    }
+
+    .logo p {
+      color: #93a59d;
+
+      font-size: 13px;
+
+      margin-top: 5px;
+    }
+
+    /* CARD */
+
+    .card {
+      background: #0c211a;
+
+      border:
+        1px solid
+        rgba(212,175,55,.25);
+
+      border-radius: 18px;
+
+      padding: 28px 24px;
+
+      box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.35);
+    }
+
+    h2 {
+      text-align: center;
+
+      margin-bottom: 7px;
+    }
+
+    .subtitle {
+      text-align: center;
+
+      color: #91a29b;
+
+      font-size: 14px;
+
+      margin-bottom: 23px;
+    }
+
+    /* MESSAGE */
+
+    .message {
+      display: none;
+
+      padding: 11px;
+
+      margin-bottom: 15px;
+
+      border-radius: 8px;
+
+      text-align: center;
+
+      font-size: 13px;
+    }
+
+    .success {
+      background:
+        rgba(55,180,100,.12);
+
+      color: #71e09a;
+    }
+
+    .error {
+      background:
+        rgba(220,70,70,.12);
+
+      color: #ff8d8d;
+    }
+
+    /* INPUTS */
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 14px;
+
+      color: #dce5e1;
+    }
+
+    input,
+    select {
+      width: 100%;
+
+      padding: 13px;
+
+      background: #071812;
+
+      border:
+        1px solid
+        #28473b;
+
+      border-radius: 9px;
+
+      color: white;
+
+      outline: none;
+
+      font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #d4af37;
+
+      box-shadow:
+        0 0 0 2px
+        rgba(212,175,55,.1);
+    }
+
+    select option {
+      background: #071812;
+
+      color: white;
+    }
+
+    /* PASSWORD */
+
+    .password-box {
+      position: relative;
+    }
+
+    .password-box input {
+      padding-right: 55px;
+    }
+
+    .show-btn {
+      position: absolute;
+
+      right: 10px;
+
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      border: none;
+
+      background: transparent;
+
+      color: #d4af37;
+
+      cursor: pointer;
+
+      font-size: 12px;
+    }
+
+    /* TERMS */
+
+    .terms {
+      display: flex;
+
+      align-items: flex-start;
+
+      gap: 9px;
+
+      margin: 18px 0;
+
+      color: #91a29b;
+
+      font-size: 12px;
+
+      line-height: 1.5;
+    }
+
+    .terms input {
+      width: auto;
+
+      margin-top: 3px;
+
+      accent-color: #d4af37;
+    }
+
+    .terms a {
+      color: #d4af37;
+
+      text-decoration: none;
+    }
+
+    /* BUTTON */
+
+    .register-btn {
+      width: 100%;
+
+      padding: 14px;
+
+      border: none;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #d4af37,
+          #b58e20
+        );
+
+      color: #071812;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition: .2s;
+    }
+
+    .register-btn:hover {
+      filter: brightness(1.08);
+
+      transform: translateY(-1px);
+    }
+
+    /* LOGIN */
+
+    .login {
+      text-align: center;
+
+      margin-top: 20px;
+
+      color: #91a29b;
+
+      font-size: 14px;
+    }
+
+    .login a {
+      color: #d4af37;
+
+      text-decoration: none;
+
+      font-weight: bold;
+    }
+
+    /* BACK */
+
+    .back {
+      text-align: center;
+
+      margin-top: 18px;
+    }
+
+    .back a {
+      color: #91a29b;
+
+      text-decoration: none;
+
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media(max-width: 480px) {
+
+      .card {
+        padding: 24px 18px;
+      }
+
+      .logo h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+      <div class="logo-circle">
+        IKDA
+      </div>
+
+      <h1>
+        IKDA LIVE
+      </h1>
+
+      <p>
+        Igala Kingdom Descendant Association
+      </p>
+
+    </div>
+
+
+    <!-- REGISTRATION CARD -->
+
+    <div class="card">
+
+      <h2>
+        Create Account
+      </h2>
+
+      <p class="subtitle">
+        Register as an IKDA LIVE member
+      </p>
+
+
+      <!-- MESSAGE -->
+
+      <div
+        id="message"
+        class="message">
+      </div>
+
+
+      <!-- FORM -->
+
+      <form id="registerForm">
+
+
+        <!-- FULL NAME -->
+
+        <div class="input-group">
+
+          <label for="fullname">
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            id="fullname"
+            placeholder="Enter your full name"
+            autocomplete="name"
+            required
+          >
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="input-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+
+        <!-- PHONE -->
+
+        <div class="input-group">
+
+          <label for="phone">
+            Phone Number
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            placeholder="e.g. 08012345678"
+            autocomplete="tel"
+            required
+          >
+
+        </div>
+
+
+        <!-- STATE -->
+
+        <div class="input-group">
+
+          <label for="state">
+            State
+          </label>
+
+          <select
+            id="state"
+            required
+          >
+
+            <option value="">
+              Select your state
+            </option>
+
+            <option value="Benue">
+              Benue
+            </option>
+
+            <option value="Enugu">
+              Enugu
+            </option>
+
+            <option value="FCT">
+              FCT Abuja
+            </option>
+
+            <option value="Kogi">
+              Kogi
+            </option>
+
+            <option value="Nasarawa">
+              Nasarawa
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- LOCAL GOVERNMENT -->
+
+        <div class="input-group">
+
+          <label for="localGovernment">
+            Local Government Area
+          </label>
+
+          <select
+            id="localGovernment"
+            required
+            disabled
+          >
+
+            <option value="">
+              Select your state first
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="input-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="password-box">
+
+            <input
+              type="password"
+              id="password"
+              placeholder="Create a password"
+              minlength="6"
+              autocomplete="new-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="show-btn"
+              onclick="togglePassword(
+                'password',
+                this
+              )"
+            >
+              Show
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- CONFIRM PASSWORD -->
+
+        <div class="input-group">
+
+          <label for="confirmPassword">
+            Confirm Password
+          </label>
+
+          <div class="password-box">
+
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm your password"
+              minlength="6"
+              autocomplete="new-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="show-btn"
+              onclick="togglePassword(
+                'confirmPassword',
+                this
+              )"
+            >
+              Show
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- TERMS -->
+
+        <label class="terms">
+
+          <input
+            type="checkbox"
+            id="terms"
+            required
+          >
+
+          <span>
+
+            I agree to the IKDA LIVE
+
+            <a href="#">
+              Terms of Use
+            </a>
+
+            and
+
+            <a href="#">
+              Community Guidelines
+            </a>.
+
+          </span>
+
+        </label>
+
+
+        <!-- REGISTER -->
+
+        <button
+          class="register-btn"
+          type="submit"
+        >
+          Create Account
+        </button>
+
+      </form>
+
+
+      <!-- LOGIN -->
+
+      <div class="login">
+
+        Already have an account?
+
+        <a href="login.html">
+          Sign In
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- BACK -->
+
+    <div class="back">
+
+      <a href="index.html">
+        ← Back to IKDA LIVE
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /*
+      LOCAL GOVERNMENT DATA
+    */
+
+    const localGovernments = {
+
+      Kogi: [
+
+        "Adavi",
+        "Ajaokuta",
+        "Ankpa",
+        "Bassa",
+        "Dekina",
+        "Ibaji",
+        "Idah",
+        "Igalamela-Odolu",
+        "Ijumu",
+        "Kabba-Bunu",
+        "Kogi",
+        "Lokoja",
+        "Mopa-Muro",
+        "Ofu",
+        "Ogori-Magongo",
+        "Okehi",
+        "Okene",
+        "Olamaboro",
+        "Omala",
+        "Yagba East",
+        "Yagba West"
+
+      ],
+
+      Benue: [
+
+        "Ado",
+        "Agatu",
+        "Apa",
+        "Buruku",
+        "Gboko",
+        "Guma",
+        "Gwer East",
+        "Gwer West",
+        "Katsina-Ala",
+        "Konshisha",
+        "Kwande",
+        "Logo",
+        "Makurdi",
+        "Obi",
+        "Ogbadibo",
+        "Ohimini",
+        "Oju",
+        "Okpokwu",
+        "Otukpo",
+        "Tarka",
+        "Ukum",
+        "Ushongo",
+        "Vandeikya"
+
+      ],
+
+      Enugu: [
+
+        "Aninri",
+        "Awgu",
+        "Enugu East",
+        "Enugu North",
+        "Enugu South",
+        "Ezeagu",
+        "Igbo-Etiti",
+        "Igbo-Eze North",
+        "Igbo-Eze South",
+        "Isi-Uzo",
+        "Nkanu East",
+        "Nkanu West",
+        "Nsukka",
+        "Oji River",
+        "Udenu",
+        "Udi",
+        "Uzo-Uwani"
+
+      ],
+
+      Nasarawa: [
+
+        "Akwanga",
+        "Awe",
+        "Doma",
+        "Karu",
+        "Keana",
+        "Keffi",
+        "Kokona",
+        "Lafia",
+        "Nasarawa",
+        "Nasarawa Eggon",
+        "Obi",
+        "Toto",
+        "Wamba"
+
+      ],
+
+      FCT: [
+
+        "Abaji",
+        "Bwari",
+        "Gwagwalada",
+        "Kuje",
+        "Kwali",
+        "Municipal Area Council"
+
+      ]
+
+    };
+
+
+    /*
+      STATE → LOCAL GOVERNMENT
+    */
+
+    const stateSelect =
+      document.getElementById("state");
+
+    const lgaSelect =
+      document.getElementById("localGovernment");
+
+
+    stateSelect.addEventListener(
+      "change",
+      function() {
+
+        const selectedState =
+          this.value;
+
+
+        lgaSelect.innerHTML =
+          "";
+
+
+        if (
+          !selectedState ||
+          !localGovernments[selectedState]
+        ) {
+
+          lgaSelect.disabled = true;
+
+          const option =
+            document.createElement("option");
+
+          option.value = "";
+
+          option.textContent =
+            "Select your state first";
+
+          lgaSelect.appendChild(option);
+
+          return;
+        }
+
+
+        lgaSelect.disabled = false;
+
+
+        const firstOption =
+          document.createElement("option");
+
+        firstOption.value = "";
+
+        firstOption.textContent =
+          "Select your local government";
+
+        lgaSelect.appendChild(firstOption);
+
+
+        localGovernments[selectedState]
+          .forEach(function(lga) {
+
+            const option =
+              document.createElement("option");
+
+            option.value = lga;
+
+            option.textContent = lga;
+
+            lgaSelect.appendChild(option);
+
+          });
+
+      }
+    );
+
+
+    /*
+      SHOW / HIDE PASSWORD
+    */
+
+    function togglePassword(
+      id,
+      button
+    ) {
+
+      const input =
+        document.getElementById(id);
+
+
+      if (
+        input.type === "password"
+      ) {
+
+        input.type = "text";
+
+        button.textContent =
+          "Hide";
+
+      } else {
+
+        input.type = "password";
+
+        button.textContent =
+          "Show";
+
+      }
+
+    }
+
+
+    /*
+      REGISTRATION
+    */
+
+    document
+      .getElementById("registerForm")
+      .addEventListener(
+        "submit",
+        function(event) {
+
+          event.preventDefault();
+
+
+          const fullname =
+            document
+              .getElementById("fullname")
+              .value
+              .trim();
+
+
+          const email =
+            document
+              .getElementById("email")
+              .value
+              .trim();
+
+
+          const phone =
+            document
+              .getElementById("phone")
+              .value
+              .trim();
+
+
+          const state =
+            document
+              .getElementById("state")
+              .value;
+
+
+          const lga =
+            document
+              .getElementById("localGovernment")
+              .value;
+
+
+          const password =
+            document
+              .getElementById("password")
+              .value;
+
+
+          const confirmPassword =
+            document
+              .getElementById("confirmPassword")
+              .value;
+
+
+          const message =
+            document
+              .getElementById("message");
+
+
+          /*
+            PASSWORD CHECK
+          */
+
+          if (
+            password !== confirmPassword
+          ) {
+
+            message.className =
+              "message error";
+
+            message.textContent =
+              "Passwords do not match.";
+
+            message.style.display =
+              "block";
+
+            return;
+
+          }
+
+
+          /*
+            PASSWORD LENGTH
+          */
+
+          if (
+            password.length < 6
+          ) {
+
+            message.className =
+              "message error";
+
+            message.textContent =
+              "Password must be at least 6 characters.";
+
+            message.style.display =
+              "block";
+
+            return;
+
+          }
+
+
+          /*
+            DEMO SUCCESS
+          */
+
+          message.className =
+            "message success";
+
+          message.textContent =
+            "Account created successfully for "
+            + fullname
+            + ". Welcome to IKDA LIVE!";
+
+          message.style.display =
+            "block";
+
+
+          /*
+            TEMPORARY FRONTEND REDIRECT
+
+            Supabase registration
+            will replace this later.
+          */
+
+          setTimeout(
+            function() {
+
+              window.location.href =
+                "join.html";
+
+            },
+            1500
+          );
+
+        }
+      );
+
+  </script>
+
+</body>
+</html>
