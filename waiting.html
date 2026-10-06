@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IKDA LIVE - Waiting</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at top,
+          rgba(212, 175, 55, 0.13),
+          transparent 40%
+        ),
+        #06140f;
+
+      color: white;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    /* LOGO */
+
+    .logo {
+      margin-bottom: 25px;
+    }
+
+    .logo-circle {
+      width: 72px;
+      height: 72px;
+
+      margin: auto;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #d4af37,
+          #987718
+        );
+
+      color: #06140f;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-weight: bold;
+      font-size: 21px;
+
+      box-shadow:
+        0 0 30px
+        rgba(212, 175, 55, 0.25);
+    }
+
+    .logo h1 {
+      color: #d4af37;
+
+      margin-top: 10px;
+
+      font-size: 27px;
+    }
+
+    .logo p {
+      color: #8fa199;
+
+      font-size: 13px;
+
+      margin-top: 5px;
+    }
+
+    /* CARD */
+
+    .card {
+      background: #0c211a;
+
+      border:
+        1px solid
+        rgba(212, 175, 55, 0.25);
+
+      border-radius: 20px;
+
+      padding: 35px 25px;
+
+      box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.4);
+    }
+
+    /* ANIMATION */
+
+    .waiting-icon {
+      width: 105px;
+      height: 105px;
+
+      margin: 0 auto 25px;
+
+      border-radius: 50%;
+
+      border:
+        2px solid
+        rgba(212, 175, 55, 0.3);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: relative;
+    }
+
+    .waiting-icon::before {
+      content: "";
+
+      position: absolute;
+
+      width: 105px;
+      height: 105px;
+
+      border-radius: 50%;
+
+      border:
+        2px solid
+        transparent;
+
+      border-top-color: #d4af37;
+
+      animation:
+        spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .microphone {
+      font-size: 42px;
+    }
+
+    .live-badge {
+      display: inline-block;
+
+      background: #b82020;
+
+      color: white;
+
+      padding: 6px 12px;
+
+      border-radius: 20px;
+
+      font-size: 11px;
+
+      font-weight: bold;
+
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      font-size: 24px;
+
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #95a79f;
+
+      font-size: 14px;
+
+      line-height: 1.6;
+
+      margin-bottom: 25px;
+    }
+
+    /* STATUS */
+
+    .status-box {
+      background: #071812;
+
+      border:
+        1px solid
+        #28473b;
+
+      border-radius: 12px;
+
+      padding: 18px;
+
+      margin-bottom: 20px;
+    }
+
+    .status-title {
+      color: #d4af37;
+
+      font-size: 13px;
+
+      font-weight: bold;
+
+      margin-bottom: 8px;
+    }
+
+    .status-text {
+      color: #b5c2bd;
+
+      font-size: 13px;
+    }
+
+    /* DOTS */
+
+    .dots {
+      margin-top: 12px;
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 6px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: #d4af37;
+
+      animation:
+        pulse 1.2s infinite;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: .2s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: .4s;
+    }
+
+    @keyframes pulse {
+
+      0%, 100% {
+        opacity: .3;
+        transform: scale(.8);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+    }
+
+    /* MEETING INFO */
+
+    .meeting-info {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 10px;
+
+      margin-bottom: 22px;
+    }
+
+    .info {
+      background: rgba(255,255,255,.025);
+
+      border:
+        1px solid
+        rgba(255,255,255,.05);
+
+      border-radius: 9px;
+
+      padding: 12px;
+    }
+
+    .info strong {
+      display: block;
+
+      color: #d4af37;
+
+      font-size: 14px;
+
+      margin-bottom: 5px;
+    }
+
+    .info span {
+      color: #81948b;
+
+      font-size: 11px;
+    }
+
+    /* BUTTON */
+
+    .cancel-btn {
+      width: 100%;
+
+      padding: 13px;
+
+      border-radius: 10px;
+
+      border:
+        1px solid
+        #28473b;
+
+      background: transparent;
+
+      color: #a9b7b1;
+
+      cursor: pointer;
+
+      font-size: 14px;
+
+      transition: .2s;
+    }
+
+    .cancel-btn:hover {
+      border-color: #d4af37;
+
+      color: #d4af37;
+    }
+
+    .note {
+      margin-top: 18px;
+
+      color: #667b72;
+
+      font-size: 11px;
+
+      line-height: 1.5;
+    }
+
+    @media(max-width: 480px) {
+
+      .card {
+        padding: 28px 18px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+
+      .meeting-info {
+        grid-template-columns: 1fr;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+      <div class="logo-circle">
+        IKDA
+      </div>
+
+      <h1>
+        IKDA LIVE
+      </h1>
+
+      <p>
+        Igala Kingdom Descendant Association
+      </p>
+
+    </div>
+
+
+    <!-- CARD -->
+
+    <div class="card">
+
+      <div class="waiting-icon">
+
+        <div class="microphone">
+          🎙️
+        </div>
+
+      </div>
+
+
+      <div class="live-badge">
+        ● LIVE MEETING
+      </div>
+
+
+      <h2>
+        Request Sent
+      </h2>
+
+
+      <p class="description">
+
+        Your request to speak has been sent
+        to the meeting host.
+
+        <br><br>
+
+        Please remain in the meeting while
+        the host reviews your request.
+
+      </p>
+
+
+      <!-- STATUS -->
+
+      <div class="status-box">
+
+        <div class="status-title">
+          SPEAKING REQUEST
+        </div>
+
+        <div class="status-text"
+             id="statusText">
+
+          Waiting for host approval
+
+        </div>
+
+
+        <div class="dots">
+
+          <span class="dot"></span>
+
+          <span class="dot"></span>
+
+          <span class="dot"></span>
+
+        </div>
+
+      </div>
+
+
+      <!-- MEETING INFO -->
+
+      <div class="meeting-info">
+
+        <div class="info">
+
+          <strong>
+            527
+          </strong>
+
+          <span>
+            Participants
+          </span>
+
+        </div>
+
+
+        <div class="info">
+
+          <strong>
+            4
+          </strong>
+
+          <span>
+            Speakers
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- CANCEL -->
+
+      <button
+        class="cancel-btn"
+        onclick="cancelRequest()">
+
+        Cancel Request
+
+      </button>
+
+
+      <div class="note">
+
+        You remain a listener until the host
+        approves your speaking request.
+
+        Your microphone will remain inactive
+        while waiting.
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /*
+      DEMO STATUS
+
+      Later this will be controlled
+      by Supabase realtime events.
+    */
+
+    let checking = true;
+
+
+    /*
+      DEMO APPROVAL CHECK
+
+      For now, after 15 seconds we
+      simulate the host accepting
+      the request.
+
+      This will be removed when
+      Supabase is connected.
+    */
+
+    setTimeout(function() {
+
+      if (!checking) {
+        return;
+      }
+
+      const status =
+        document.getElementById(
+          "statusText"
+        );
+
+      status.textContent =
+        "Host approved your request!";
+
+      status.style.color =
+        "#71e09a";
+
+
+      setTimeout(function() {
+
+        window.location.href =
+          "meeting.html";
+
+      }, 1500);
+
+    }, 15000);
+
+
+    /*
+      CANCEL REQUEST
+    */
+
+    function cancelRequest() {
+
+      checking = false;
+
+
+      const status =
+        document.getElementById(
+          "statusText"
+        );
+
+
+      status.textContent =
+        "Request cancelled";
+
+      status.style.color =
+        "#ff8d8d";
+
+
+      setTimeout(function() {
+
+        window.location.href =
+          "meeting.html";
+
+      }, 1000);
+
+    }
+
+  </script>
+
+</body>
+</html>
