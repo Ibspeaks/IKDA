@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Participants - IKDA LIVE</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7f5;
+      color: #173b2b;
+    }
+
+    header {
+      background: #064d32;
+      color: white;
+      padding: 18px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #d4af37;
+      color: #064d32;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .brand h1 {
+      font-size: 21px;
+    }
+
+    .brand p {
+      font-size: 12px;
+      opacity: .8;
+      margin-top: 3px;
+    }
+
+    .header-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .header-links a {
+      color: white;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,.3);
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 25px 18px 50px;
+    }
+
+    .page-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .page-title h2 {
+      font-size: 27px;
+    }
+
+    .page-title p {
+      color: #66756e;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    .live-badge {
+      background: #e9f7ef;
+      color: #08743e;
+      border: 1px solid #b9e5c9;
+      padding: 9px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 22px;
+    }
+
+    .stat {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      border: 1px solid #e0e8e3;
+      box-shadow: 0 4px 15px rgba(0,0,0,.04);
+    }
+
+    .stat small {
+      color: #74817b;
+      font-size: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+      margin-top: 6px;
+      color: #064d32;
+    }
+
+    .toolbar {
+      background: white;
+      border: 1px solid #e0e8e3;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 220px;
+      position: relative;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid #ccd8d1;
+      border-radius: 9px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search input:focus {
+      border-color: #08743e;
+    }
+
+    .filter {
+      padding: 12px 14px;
+      border: 1px solid #ccd8d1;
+      border-radius: 9px;
+      background: white;
+      color: #173b2b;
+      cursor: pointer;
+    }
+
+    .participants-box {
+      background: white;
+      border: 1px solid #e0e8e3;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,.04);
+    }
+
+    .box-header {
+      padding: 18px;
+      border-bottom: 1px solid #e5ebe7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .box-header h3 {
+      font-size: 17px;
+    }
+
+    .box-header span {
+      color: #74817b;
+      font-size: 13px;
+    }
+
+    .participant {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid #edf1ee;
+    }
+
+    .participant:last-child {
+      border-bottom: none;
+    }
+
+    .avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #e7f2ec;
+      color: #064d32;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .person {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .person strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .person small {
+      color: #78847e;
+      font-size: 12px;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .status {
+      padding: 6px 9px;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .listener {
+      background: #eef2f0;
+      color: #56645d;
+    }
+
+    .speaker {
+      background: #e4f7eb;
+      color: #08743e;
+    }
+
+    .muted {
+      background: #fff0df;
+      color: #a65c00;
+    }
+
+    .actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 8px 11px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .btn-green {
+      background: #064d32;
+      color: white;
+    }
+
+    .btn-gold {
+      background: #d4af37;
+      color: #173b2b;
+    }
+
+    .btn-light {
+      background: #eef3f0;
+      color: #315343;
+    }
+
+    .btn-red {
+      background: #fbe8e8;
+      color: #a72d2d;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 45px 20px;
+      color: #718078;
+      display: none;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      padding: 15px;
+      background: #fff8e5;
+      border-left: 4px solid #d4af37;
+      border-radius: 7px;
+      color: #66551e;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #064d32;
+      color: white;
+      padding: 13px 18px;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 0 8px 25px rgba(0,0,0,.2);
+      z-index: 100;
+      font-size: 13px;
+    }
+
+    @media (max-width: 850px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .participant {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .actions {
+        width: 100%;
+        margin-left: 59px;
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .brand h1 {
+        font-size: 18px;
+      }
+
+      .header-links a {
+        padding: 7px 9px;
+      }
+
+      .participant {
+        padding: 14px;
+      }
+
+      .actions {
+        margin-left: 0;
+      }
+
+      .actions button {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">IKDA</div>
+    <div>
+      <h1>IKDA LIVE</h1>
+      <p>Igala Kingdom Descendant Association</p>
+    </div>
+  </div>
+
+  <div class="header-links">
+    <a href="host.html">Host Dashboard</a>
+    <a href="meeting.html">Meeting</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page-title">
+    <div>
+      <h2>Participants</h2>
+      <p>Manage members currently inside the live audio meeting.</p>
+    </div>
+
+    <div class="live-badge">● MEETING LIVE</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <small>Total Participants</small>
+      <strong id="totalParticipants">527</strong>
+    </div>
+
+    <div class="stat">
+      <small>Listeners</small>
+      <strong id="listenerCount">523</strong>
+    </div>
+
+    <div class="stat">
+      <small>Speakers</small>
+      <strong id="speakerCount">4</strong>
+    </div>
+
+    <div class="stat">
+      <small>Muted</small>
+      <strong id="mutedCount">1</strong>
+    </div>
+  </div>
+
+  <div class="toolbar">
+
+    <div class="search">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search participant by name..."
+        onkeyup="searchParticipants()"
+      >
+    </div>
+
+    <select class="filter" id="statusFilter" onchange="filterParticipants()">
+      <option value="all">All Participants</option>
+      <option value="listener">Listeners</option>
+      <option value="speaker">Speakers</option>
+      <option value="muted">Muted</option>
+    </select>
+
+  </div>
+
+  <div class="participants-box">
+
+    <div class="box-header">
+      <h3>Members in Meeting</h3>
+      <span id="visibleCount">6 shown</span>
+    </div>
+
+    <div id="participantList">
+
+      <div class="participant" data-name="John Samuel" data-status="speaker">
+
+        <div class="avatar">JS</div>
+
+        <div class="person">
+          <strong>John Samuel</strong>
+          <small>Kogi State • Dekina LGA</small>
+        </div>
+
+        <span class="status speaker">Speaker</span>
+
+        <div class="actions">
+          <button class="btn-light" onclick="muteUser(this)">
+            Mute
+          </button>
+
+          <button class="btn-red" onclick="removeUser(this)">
+            Remove
+          </button>
+        </div>
+
+      </div>
+
+
+      <div class="participant" data-name="Mary Audu" data-status="listener">
+
+        <div class="avatar">MA</div>
+
+        <div class="person">
+          <strong>Mary Audu</strong>
+          <small>Kogi State • Ankpa LGA</small>
+        </div>
+
+        <span class="status listener">Listener</span>
+
+        <div class="actions">
+          <button class="btn-gold" onclick="allowSpeaker(this)">
+            Allow to Speak
+          </button>
+
+          <button class="btn-red" onclick="removeUser(this)">
+            Remove
+          </button>
+        </div>
+
+      </div>
+
+
+      <div class="participant" data-name="Ibrahim Musa" data-status="listener">
+
+        <div class="avatar">IM</div>
+
+        <div class="person">
+          <strong>Ibrahim Musa</strong>
+          <small>FCT Abuja • Bwari LGA</small>
+        </div>
+
+        <span class="status listener">Listener</span>
+
+        <div class="actions">
+          <button class="btn-gold" onclick="allowSpeaker(this)">
+            Allow to Speak
+          </button>
+
+          <button class="btn-red" onclick="removeUser(this)">
+            Remove
+          </button>
+        </div>
+
+      </div>
+
+
+      <div class="participant" data-name="Grace Oche" data-status="muted">
+
+        <div class="avatar">GO</div>
+
+        <div class="person">
+          <strong>Grace Oche</strong>
+          <small>Benue State • Otukpo LGA</small>
+        </div>
+
+        <span class="status muted">Muted</span>
+
+        <div class="actions">
+          <button class="btn-green" onclick="unmuteUser(this)">
+            Unmute
+          </button>
+
+          <button class="btn-red" onclick="removeUser(this)">
+            Remove
+          </button>
+        </div>
+
+      </div>
+
+
+      <div class="participant" data-name="David Ojo" data-status="speaker">
+
+        <div class="avatar">DO</div>
+
+        <div class="person">
+          <strong>David Ojo</strong>
+          <small>Kogi State • Idah LGA</small>
+        </div>
+
+        <span class="status speaker">Speaker</span>
+
+        <div class="actions">
+          <button class="btn-light" onclick="muteUser(this)">
+            Mute
+          </button>
+
+          <button class="btn-red" onclick="removeUser(this)">
+            Remove
+          </button>
+        </div>
+
+      </div>
+
+
+      <div class="participant" data-name="Esther Ali" data-status="listener">
+
+        <div class="avatar">EA</div>
+
+        <div class="person">
+          <strong>Esther Ali</strong>
+          <small>Nasarawa State • Lafia LGA</small>
+        </div>
+
+        <span class="status listener">Listener</span>
+
+        <div class="actions">
+          <button class="btn-gold" onclick="allowSpeaker(this)">
+            Allow to Speak
+          </button>
+
+          <button class="btn-red" onclick="removeUser(this)">
+            Remove
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="empty" id="emptyMessage">
+      No participants found.
+    </div>
+
+  </div>
+
+  <div class="footer-note">
+    <strong>Host Control:</strong>
+    Participants enter the meeting as listeners by default.
+    Only the host can allow a member to become a speaker.
+    Real-time permissions and microphone controls will be connected to Supabase later.
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+  function showToast(message) {
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 2500);
+  }
+
+
+  function allowSpeaker(button) {
+
+    const participant = button.closest(".participant");
+
+    const name =
+      participant.querySelector(".person strong").textContent;
+
+    const status =
+      participant.querySelector(".status");
+
+    status.textContent = "Speaker";
+    status.className = "status speaker";
+
+    participant.dataset.status = "speaker";
+
+    button.textContent = "Mute";
+    button.className = "btn-light";
+    button.onclick = function() {
+      muteUser(this);
+    };
+
+    updateStats();
+
+    showToast(name + " is now a speaker.");
+  }
+
+
+  function muteUser(button) {
+
+    const participant = button.closest(".participant");
+
+    const name =
+      participant.querySelector(".person strong").textContent;
+
+    const status =
+      participant.querySelector(".status");
+
+    status.textContent = "Muted";
+    status.className = "status muted";
+
+    participant.dataset.status = "muted";
+
+    button.textContent = "Unmute";
+    button.className = "btn-green";
+    button.onclick = function() {
+      unmuteUser(this);
+    };
+
+    updateStats();
+
+    showToast(name + " has been muted.");
+  }
+
+
+  function unmuteUser(button) {
+
+    const participant = button.closest(".participant");
+
+    const name =
+      participant.querySelector(".person strong").textContent;
+
+    const status =
+      participant.querySelector(".status");
+
+    status.textContent = "Speaker";
+    status.className = "status speaker";
+
+    participant.dataset.status = "speaker";
+
+    button.textContent = "Mute";
+    button.className = "btn-light";
+    button.onclick = function() {
+      muteUser(this);
+    };
+
+    updateStats();
+
+    showToast(name + " has been unmuted.");
+  }
+
+
+  function removeUser(button) {
+
+    const participant = button.closest(".participant");
+
+    const name =
+      participant.querySelector(".person strong").textContent;
+
+    participant.remove();
+
+    updateStats();
+
+    showToast(name + " has been removed from the meeting.");
+
+    searchParticipants();
+  }
+
+
+  function updateStats() {
+
+    const participants =
+      document.querySelectorAll(".participant");
+
+    let speakers = 0;
+    let muted = 0;
+
+    participants.forEach(person => {
+
+      if (person.dataset.status === "speaker") {
+        speakers++;
+      }
+
+      if (person.dataset.status === "muted") {
+        muted++;
+      }
+
+    });
+
+    document.getElementById("speakerCount").textContent = speakers;
+
+    document.getElementById("mutedCount").textContent = muted;
+
+    document.getElementById("listenerCount").textContent =
+      Math.max(0, 527 - speakers);
+
+  }
+
+
+  function searchParticipants() {
+
+    const search =
+      document.getElementById("searchInput")
+      .value
+      .toLowerCase();
+
+    const filter =
+      document.getElementById("statusFilter").value;
+
+    const participants =
+      document.querySelectorAll(".participant");
+
+    let visible = 0;
+
+    participants.forEach(person => {
+
+      const name =
+        person.dataset.name.toLowerCase();
+
+      const status =
+        person.dataset.status;
+
+      const matchesName =
+        name.includes(search);
+
+      const matchesStatus =
+        filter === "all" ||
+        status === filter;
+
+      if (matchesName && matchesStatus) {
+
+        person.style.display = "flex";
+        visible++;
+
+      } else {
+
+        person.style.display = "none";
+
+      }
+
+    });
+
+    document.getElementById("visibleCount").textContent =
+      visible + " shown";
+
+    document.getElementById("emptyMessage").style.display =
+      visible === 0 ? "block" : "none";
+  }
+
+
+  function filterParticipants() {
+    searchParticipants();
+  }
+
+
+  // Demo participant count
+  setInterval(() => {
+
+    let count =
+      Number(document.getElementById("totalParticipants").textContent);
+
+    const change =
+      Math.random() > 0.5 ? 1 : -1;
+
+    count += change;
+
+    if (count < 500) count = 500;
+    if (count > 600) count = 600;
+
+    document.getElementById("totalParticipants").textContent =
+      count;
+
+  }, 5000);
+
+</script>
+
+</body>
+</html>
