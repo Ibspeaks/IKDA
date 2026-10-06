@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IKDA LIVE - Join Meeting</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at top,
+          rgba(212,175,55,.12),
+          transparent 35%
+        ),
+        #06140f;
+
+      color: white;
+
+      padding: 20px;
+    }
+
+    /* HEADER */
+
+    header {
+      max-width: 1100px;
+      margin: auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 10px 0 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #d4af37,
+          #987718
+        );
+
+      color: #06140f;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .brand h1 {
+      color: #d4af37;
+      font-size: 21px;
+    }
+
+    .brand p {
+      color: #82958d;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      color: #71e09a;
+      font-size: 13px;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: #49d67d;
+
+      box-shadow:
+        0 0 10px #49d67d;
+    }
+
+    /* MAIN */
+
+    .page {
+      max-width: 1100px;
+      margin: auto;
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        330px;
+
+      gap: 22px;
+    }
+
+    /* MEETING CARD */
+
+    .meeting-card {
+      background: #0c211a;
+
+      border:
+        1px solid
+        rgba(212,175,55,.25);
+
+      border-radius: 18px;
+
+      overflow: hidden;
+
+      box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.3);
+    }
+
+    .meeting-banner {
+      height: 180px;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(212,175,55,.2),
+          transparent 55%
+        ),
+        linear-gradient(
+          135deg,
+          #123d2d,
+          #06140f
+        );
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: relative;
+    }
+
+    .live-badge {
+      position: absolute;
+
+      top: 18px;
+      left: 18px;
+
+      padding: 7px 12px;
+
+      border-radius: 20px;
+
+      background: #b82020;
+
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .sound-icon {
+      width: 90px;
+      height: 90px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(212,175,55,.12);
+
+      border:
+        1px solid
+        rgba(212,175,55,.4);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 40px;
+    }
+
+    .meeting-content {
+      padding: 25px;
+    }
+
+    .meeting-content h2 {
+      font-size: 25px;
+      margin-bottom: 9px;
+    }
+
+    .description {
+      color: #94a69e;
+      line-height: 1.6;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    /* STATS */
+
+    .stats {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 10px;
+
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: #071812;
+
+      border:
+        1px solid
+        #28473b;
+
+      border-radius: 10px;
+
+      padding: 15px;
+
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+
+      color: #d4af37;
+
+      font-size: 20px;
+
+      margin-bottom: 5px;
+    }
+
+    .stat span {
+      color: #81948b;
+
+      font-size: 11px;
+    }
+
+    /* MEETING INFO */
+
+    .info-title {
+      color: #d4af37;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      margin-bottom: 12px;
+    }
+
+    .info-row {
+      display: flex;
+
+      justify-content: space-between;
+
+      padding: 11px 0;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,.05);
+
+      font-size: 13px;
+    }
+
+    .info-row span:first-child {
+      color: #81948b;
+    }
+
+    .info-row span:last-child {
+      color: #e0e8e4;
+      text-align: right;
+    }
+
+    /* SIDE */
+
+    .side-card {
+      background: #0c211a;
+
+      border:
+        1px solid
+        rgba(212,175,55,.25);
+
+      border-radius: 18px;
+
+      padding: 23px;
+
+      height: fit-content;
+    }
+
+    .side-card h3 {
+      margin-bottom: 18px;
+
+      font-size: 18px;
+    }
+
+    /* AUDIO */
+
+    .audio-box {
+      background: #071812;
+
+      border:
+        1px solid
+        #28473b;
+
+      border-radius: 12px;
+
+      padding: 15px;
+
+      margin-bottom: 20px;
+    }
+
+    .audio-row {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 13px;
+    }
+
+    .audio-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .audio-label {
+      color: #dce5e1;
+
+      font-size: 13px;
+    }
+
+    .audio-status {
+      color: #71e09a;
+
+      font-size: 12px;
+    }
+
+    .toggle {
+      width: 42px;
+      height: 23px;
+
+      background: #28473b;
+
+      border-radius: 20px;
+
+      position: relative;
+
+      cursor: pointer;
+    }
+
+    .toggle.active {
+      background: #d4af37;
+    }
+
+    .toggle::after {
+      content: "";
+
+      position: absolute;
+
+      width: 17px;
+      height: 17px;
+
+      top: 3px;
+      left: 3px;
+
+      background: white;
+
+      border-radius: 50%;
+
+      transition: .2s;
+    }
+
+    .toggle.active::after {
+      left: 22px;
+    }
+
+    /* JOIN BUTTON */
+
+    .join-btn {
+      width: 100%;
+
+      padding: 15px;
+
+      border: none;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #d4af37,
+          #b58e20
+        );
+
+      color: #071812;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition: .2s;
+    }
+
+    .join-btn:hover {
+      transform: translateY(-1px);
+
+      filter: brightness(1.08);
+    }
+
+    .join-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .listener-note {
+      margin-top: 12px;
+
+      padding: 12px;
+
+      background:
+        rgba(212,175,55,.07);
+
+      border:
+        1px solid
+        rgba(212,175,55,.15);
+
+      border-radius: 9px;
+
+      color: #aebbb5;
+
+      font-size: 12px;
+
+      line-height: 1.5;
+    }
+
+    .listener-note strong {
+      color: #d4af37;
+    }
+
+    /* BACK */
+
+    .back {
+      display: block;
+
+      text-align: center;
+
+      margin-top: 18px;
+
+      color: #81948b;
+
+      text-decoration: none;
+
+      font-size: 13px;
+    }
+
+    .back:hover {
+      color: #d4af37;
+    }
+
+    /* LOADING */
+
+    .loading {
+      display: none;
+
+      text-align: center;
+
+      margin-top: 15px;
+
+      color: #d4af37;
+
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media(max-width: 800px) {
+
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .side-card {
+        order: -1;
+      }
+    }
+
+    @media(max-width: 500px) {
+
+      body {
+        padding: 12px;
+      }
+
+      header {
+        padding-bottom: 18px;
+      }
+
+      .brand p {
+        display: none;
+      }
+
+      .meeting-banner {
+        height: 150px;
+      }
+
+      .meeting-content {
+        padding: 20px;
+      }
+
+      .meeting-content h2 {
+        font-size: 21px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header>
+
+    <div class="brand">
+
+      <div class="brand-logo">
+        IKDA
+      </div>
+
+      <div>
+        <h1>IKDA LIVE</h1>
+
+        <p>
+          Igala Kingdom Descendant Association
+        </p>
+      </div>
+
+    </div>
+
+    <div class="status">
+
+      <span class="status-dot"></span>
+
+      Meeting Live
+
+    </div>
+
+  </header>
+
+
+  <!-- MAIN -->
+
+  <main class="page">
+
+
+    <!-- MEETING -->
+
+    <section class="meeting-card">
+
+      <div class="meeting-banner">
+
+        <div class="live-badge">
+          ● LIVE
+        </div>
+
+        <div class="sound-icon">
+          🎙
+        </div>
+
+      </div>
+
+
+      <div class="meeting-content">
+
+        <h2>
+          IKDA General Live Meeting
+        </h2>
+
+        <p class="description">
+
+          Welcome to the official IKDA LIVE audio meeting.
+          Members can listen to the discussion and,
+          when permitted by the host, request to speak.
+
+        </p>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+          <div class="stat">
+
+            <strong id="participants">
+              527
+            </strong>
+
+            <span>
+              Participants
+            </span>
+
+          </div>
+
+
+          <div class="stat">
+
+            <strong>
+              4
+            </strong>
+
+            <span>
+              Speakers
+            </span>
+
+          </div>
+
+
+          <div class="stat">
+
+            <strong>
+              2,000+
+            </strong>
+
+            <span>
+              Capacity
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- INFORMATION -->
+
+        <div class="info-title">
+          Meeting Information
+        </div>
+
+
+        <div class="info-row">
+
+          <span>
+            Host
+          </span>
+
+          <span>
+            IKDA Leadership
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span>
+            Meeting Type
+          </span>
+
+          <span>
+            Live Audio
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span>
+            Participation
+          </span>
+
+          <span>
+            Listener by default
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span>
+            Speaker Access
+          </span>
+
+          <span>
+            Host approval required
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span>
+            Room Capacity
+          </span>
+
+          <span>
+            2,000+ Members
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- JOIN SETTINGS -->
+
+    <aside class="side-card">
+
+      <h3>
+        Join Meeting
+      </h3>
+
+
+      <!-- AUDIO SETTINGS -->
+
+      <div class="audio-box">
+
+        <div class="audio-row">
+
+          <span class="audio-label">
+            Speaker Audio
+          </span>
+
+          <span
+            class="audio-status"
+            id="speakerStatus">
+            On
+          </span>
+
+        </div>
+
+        <div
+          class="toggle active"
+          id="speakerToggle"
+          onclick="toggleSpeakerAudio()">
+        </div>
+
+      </div>
+
+
+      <!-- LISTENER NOTICE -->
+
+      <div class="listener-note">
+
+        <strong>
+          Listener Mode
+        </strong>
+
+        <br><br>
+
+        You will enter the meeting as a
+        listener. Your microphone will not
+        be active.
+
+        <br><br>
+
+        If you want to speak, use
+        <strong>Request to Speak</strong>
+        inside the meeting. The host must
+        approve your request.
+
+      </div>
+
+
+      <br>
+
+
+      <!-- JOIN -->
+
+      <button
+        class="join-btn"
+        id="joinButton"
+        onclick="joinMeeting()">
+
+        Join Meeting
+
+      </button>
+
+
+      <div
+        class="loading"
+        id="loading">
+
+        Connecting you to IKDA LIVE...
+
+      </div>
+
+
+      <a
+        href="index.html"
+        class="back">
+
+        ← Back to IKDA LIVE
+
+      </a>
+
+    </aside>
+
+  </main>
+
+
+  <script>
+
+    let speakerAudio = true;
+
+
+    /*
+      SPEAKER AUDIO TOGGLE
+    */
+
+    function toggleSpeakerAudio() {
+
+      const toggle =
+        document.getElementById(
+          "speakerToggle"
+        );
+
+      const status =
+        document.getElementById(
+          "speakerStatus"
+        );
+
+
+      speakerAudio =
+        !speakerAudio;
+
+
+      if (speakerAudio) {
+
+        toggle.classList.add("active");
+
+        status.textContent = "On";
+
+      } else {
+
+        toggle.classList.remove("active");
+
+        status.textContent = "Off";
+
+      }
+
+    }
+
+
+    /*
+      JOIN MEETING
+    */
+
+    function joinMeeting() {
+
+      const button =
+        document.getElementById(
+          "joinButton"
+        );
+
+      const loading =
+        document.getElementById(
+          "loading"
+        );
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "Joining...";
+
+      loading.style.display =
+        "block";
+
+
+      /*
+        This is currently a frontend
+        demonstration.
+
+        Later Supabase + the real
+        audio infrastructure will
+        handle authentication,
+        participant registration and
+        audio connection.
+      */
+
+      setTimeout(function() {
+
+        window.location.href =
+          "meeting.html";
+
+      }, 1200);
+
+    }
+
+
+    /*
+      DEMO PARTICIPANT COUNT
+    */
+
+    let participants = 527;
+
+    setInterval(function() {
+
+      const change =
+        Math.floor(
+          Math.random() * 7
+        ) - 2;
+
+      participants += change;
+
+      if (participants < 500) {
+        participants = 500;
+      }
+
+      document.getElementById(
+        "participants"
+      ).textContent =
+        participants;
+
+    }, 5000);
+
+  </script>
+
+</body>
+</html>
