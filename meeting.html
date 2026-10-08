@@ -1,1065 +1,714 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>IKDA LIVE Meeting</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #061f16;
-            color: #ffffff;
-            min-height: 100vh;
-        }
-
-        /* ================= HEADER ================= */
-
-        header {
-            background: #0b3d2e;
-            border-bottom: 1px solid #d4af37;
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: #d4af37;
-            color: #0b3d2e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .brand h1 {
-            font-size: 19px;
-            color: #ffffff;
-        }
-
-        .brand p {
-            font-size: 11px;
-            color: #d4af37;
-            margin-top: 3px;
-        }
-
-        nav {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 8px 10px;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-
-        nav a:hover {
-            background: #155c40;
-        }
-
-        /* ================= MAIN ================= */
-
-        .container {
-            max-width: 1250px;
-            margin: auto;
-            padding: 25px 18px 100px;
-        }
-
-        .meeting-header {
-            background: #0b3d2e;
-            border: 1px solid #175b43;
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .meeting-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .meeting-title h2 {
-            font-size: 25px;
-        }
-
-        .meeting-title p {
-            color: #aebdb6;
-            font-size: 13px;
-            margin-top: 7px;
-        }
-
-        .live {
-            background: #b42318;
-            color: white;
-            padding: 8px 13px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        /* ================= GRID ================= */
-
-        .meeting-grid {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 20px;
-        }
-
-        /* ================= STAGE ================= */
-
-        .stage {
-            background: #0b3d2e;
-            border-radius: 14px;
-            border: 1px solid #175b43;
-            padding: 20px;
-        }
-
-        .section-title {
-            font-size: 17px;
-            margin-bottom: 15px;
-            color: #d4af37;
-        }
-
-        .speaker-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .speaker {
-            background: #092e22;
-            border: 1px solid #175b43;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-
-        .speaker.active {
-            border: 2px solid #d4af37;
-        }
-
-        .avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            margin: auto;
-            background: #d4af37;
-            color: #0b3d2e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .speaker h3 {
-            margin-top: 12px;
-            font-size: 15px;
-        }
-
-        .speaker p {
-            margin-top: 5px;
-            color: #aebdb6;
-            font-size: 12px;
-        }
-
-        .mic-status {
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 12px;
-            color: #d4af37;
-        }
-
-        /* ================= LISTENER AREA ================= */
-
-        .listener-box {
-            margin-top: 20px;
-            background: #092e22;
-            border-radius: 12px;
-            padding: 18px;
-        }
-
-        .listener-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .listener-count {
-            color: #d4af37;
-            font-weight: bold;
-        }
-
-        .listener-text {
-            color: #aebdb6;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        /* ================= RIGHT SIDE ================= */
-
-        .side-card {
-            background: #0b3d2e;
-            border: 1px solid #175b43;
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 18px;
-        }
-
-        .side-card h3 {
-            color: #d4af37;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 9px 0;
-            border-bottom: 1px solid #175b43;
-            font-size: 13px;
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            color: #9eb0a8;
-        }
-
-        /* ================= CHAT ================= */
-
-        .chat-box {
-            height: 260px;
-            overflow-y: auto;
-            background: #061f16;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .message {
-            background: #0f4a36;
-            border-radius: 8px;
-            padding: 9px;
-            margin-bottom: 8px;
-        }
-
-        .message strong {
-            color: #d4af37;
-            font-size: 12px;
-        }
-
-        .message p {
-            font-size: 13px;
-            margin-top: 4px;
-            line-height: 1.4;
-        }
-
-        .chat-input {
-            display: flex;
-            gap: 7px;
-        }
-
-        .chat-input input {
-            flex: 1;
-            min-width: 0;
-            padding: 10px;
-            border: none;
-            border-radius: 7px;
-            outline: none;
-        }
-
-        .chat-input button {
-            border: none;
-            background: #d4af37;
-            color: #0b3d2e;
-            border-radius: 7px;
-            padding: 0 13px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* ================= REQUEST ================= */
-
-        .request-card {
-            background: #102f25;
-            border: 1px solid #d4af37;
-            border-radius: 10px;
-            padding: 14px;
-        }
-
-        .request-card p {
-            color: #c7d2cd;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        .request-card button {
-            width: 100%;
-            margin-top: 12px;
-            padding: 11px;
-            border: none;
-            border-radius: 7px;
-            background: #d4af37;
-            color: #0b3d2e;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* ================= CONTROLS ================= */
-
-        .controls {
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #082a1f;
-            border-top: 1px solid #175b43;
-            padding: 12px 15px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            z-index: 200;
-        }
-
-        .control-btn {
-            min-width: 90px;
-            padding: 11px 13px;
-            border: 1px solid #286b51;
-            border-radius: 9px;
-            background: #0b3d2e;
-            color: #ffffff;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .control-btn:hover {
-            background: #155c40;
-        }
-
-        .control-btn.active {
-            background: #d4af37;
-            color: #0b3d2e;
-        }
-
-        .leave-btn {
-            background: #a91f1f;
-            border-color: #a91f1f;
-        }
-
-        .leave-btn:hover {
-            background: #c42c2c;
-        }
-
-        /* ================= PARTICIPANT PANEL ================= */
-
-        .participant-panel {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .65);
-            z-index: 500;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-
-        .participant-panel.show {
-            display: flex;
-        }
-
-        .participant-window {
-            width: 100%;
-            max-width: 650px;
-            max-height: 85vh;
-            overflow-y: auto;
-            background: #0b3d2e;
-            border: 1px solid #d4af37;
-            border-radius: 15px;
-            padding: 20px;
-        }
-
-        .participant-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-        }
-
-        .participant-top h2 {
-            color: #d4af37;
-            font-size: 19px;
-        }
-
-        .close-btn {
-            width: 35px;
-            height: 35px;
-            border: none;
-            border-radius: 50%;
-            background: #a91f1f;
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .participant-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .participant-stat {
-            background: #092e22;
-            border-radius: 9px;
-            padding: 12px;
-            text-align: center;
-        }
-
-        .participant-stat strong {
-            display: block;
-            color: #d4af37;
-            font-size: 20px;
-        }
-
-        .participant-stat span {
-            color: #aebdb6;
-            font-size: 11px;
-        }
-
-        .participant-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .participant {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            background: #092e22;
-            padding: 11px;
-            border-radius: 9px;
-        }
-
-        .participant-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 0;
-        }
-
-        .small-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #d4af37;
-            color: #0b3d2e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .participant-name {
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .participant-role {
-            color: #aebdb6;
-            font-size: 10px;
-            margin-top: 3px;
-        }
-
-        .participant-status {
-            font-size: 11px;
-            color: #d4af37;
-            white-space: nowrap;
-        }
-
-        /* ================= TOAST ================= */
-
-        .toast {
-            position: fixed;
-            top: 75px;
-            right: 20px;
-            background: #d4af37;
-            color: #0b3d2e;
-            padding: 13px 17px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: bold;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0 5px 20px rgba(0,0,0,.3);
-        }
-
-        .toast.show {
-            display: block;
-        }
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 800px) {
-
-            header {
-                align-items: flex-start;
-            }
-
-            nav {
-                display: none;
-            }
-
-            .meeting-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .speaker-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .controls {
-                overflow-x: auto;
-                justify-content: flex-start;
-            }
-
-            .control-btn {
-                min-width: 85px;
-            }
-        }
-
-        @media (max-width: 500px) {
-
-            .container {
-                padding: 15px 10px 100px;
-            }
-
-            .meeting-title-row {
-                align-items: flex-start;
-            }
-
-            .meeting-title h2 {
-                font-size: 20px;
-            }
-
-            .speaker-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .participant-stats {
-                grid-template-columns: 1fr 1fr 1fr;
-            }
-
-            .participant-status {
-                display: none;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IKDA LIVE - Meeting</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #061a13;
+    color: white;
+    min-height: 100vh;
+}
+
+/* HEADER */
+
+header {
+    background: #0b2d21;
+    border-bottom: 2px solid #d4af37;
+    padding: 15px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: #d4af37;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.live {
+    background: #d62828;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* MAIN */
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.meeting-title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.meeting-title h1 {
+    color: #d4af37;
+    margin-bottom: 8px;
+}
+
+.meeting-title p {
+    color: #a9bdb5;
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.stat {
+    background: #0c3024;
+    border: 1px solid #194c3a;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+}
+
+.stat strong {
+    display: block;
+    font-size: 25px;
+    color: #d4af37;
+    margin-bottom: 5px;
+}
+
+/* STAGE */
+
+.section-title {
+    color: #d4af37;
+    margin: 25px 0 12px;
+}
+
+.stage {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.speaker {
+    background: #0c3024;
+    border: 1px solid #194c3a;
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+}
+
+.avatar {
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    background: #d4af37;
+    color: #061a13;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: auto;
+    margin-bottom: 12px;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.speaker h3 {
+    margin-bottom: 6px;
+}
+
+.speaking {
+    color: #5cff9d;
+    font-size: 13px;
+}
+
+/* LISTENERS */
+
+.listener-box {
+    background: #0c3024;
+    border: 1px solid #194c3a;
+    border-radius: 14px;
+    padding: 25px;
+    text-align: center;
+}
+
+.listener-box .big-number {
+    color: #d4af37;
+    font-size: 42px;
+    font-weight: bold;
+}
+
+/* CHAT */
+
+.chat-box {
+    background: #0c3024;
+    border: 1px solid #194c3a;
+    border-radius: 14px;
+    padding: 15px;
+}
+
+.messages {
+    height: 180px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+}
+
+.message {
+    background: #123d2e;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.chat-input {
+    display: flex;
+    gap: 8px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #315847;
+
+    background: #071e16;
+    color: white;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.send {
+    background: #d4af37;
+    color: #061a13;
+    border-radius: 8px;
+    padding: 12px 18px;
+}
+
+/* CONTROLS */
+
+.controls {
+    position: sticky;
+    bottom: 0;
+
+    background: #071e16;
+
+    border-top: 1px solid #315847;
+
+    padding: 14px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    justify-content: center;
+
+    margin-top: 25px;
+}
+
+.control {
+    background: #123d2e;
+    color: white;
+
+    border: 1px solid #315847;
+
+    padding: 12px 15px;
+
+    border-radius: 9px;
+}
+
+.control:hover {
+    background: #18523d;
+}
+
+.leave {
+    background: #a51d1d;
+    border-color: #a51d1d;
+}
+
+/* PARTICIPANT POPUP */
+
+.overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.75);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1000;
+
+    padding: 15px;
+}
+
+.overlay.show {
+    display: flex;
+}
+
+.participant-panel {
+    width: 100%;
+    max-width: 550px;
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+
+    background: #0b2d21;
+
+    border: 2px solid #d4af37;
+
+    border-radius: 16px;
+
+    padding: 20px;
+}
+
+.panel-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.panel-header h2 {
+    color: #d4af37;
+}
+
+.close {
+    background: #a51d1d;
+
+    color: white;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+
+    font-size: 18px;
+}
+
+.participant {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    background: #123d2e;
+
+    border: 1px solid #245b47;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+}
+
+.participant-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.small-avatar {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    background: #d4af37;
+
+    color: #061a13;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+}
+
+.status {
+    font-size: 12px;
+    color: #9db1a8;
+
+    margin-top: 3px;
+}
+
+.status.speaking {
+    color: #5cff9d;
+}
+
+.participant button {
+    background: #d4af37;
+
+    color: #061a13;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+}
+
+/* NOTICE */
+
+.notice {
+    display: none;
+
+    position: fixed;
+
+    top: 20px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: #d4af37;
+
+    color: #061a13;
+
+    padding: 13px 20px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    z-index: 2000;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,.4);
+}
+
+.notice.show {
+    display: block;
+}
+
+/* MOBILE */
+
+@media(max-width:700px) {
+
+    .stage {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media(max-width:450px) {
+
+    .stage {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .control {
+        flex: 1 1 45%;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
-
 <header>
 
-    <div class="brand">
-
-        <div class="logo">
-            IK
-        </div>
-
-        <div>
-            <h1>IKDA LIVE</h1>
-            <p>Igala Kingdom Descendant Association</p>
-        </div>
-
+    <div class="logo">
+        IKDA LIVE
     </div>
 
-
-    <nav>
-
-        <a href="index.html">
-            Home
-        </a>
-
-        <a href="meeting.html">
-            Meeting
-        </a>
-
-        <a href="participants.html">
-            Participants
-        </a>
-
-        <a href="profile.html">
-            My Profile
-        </a>
-
-    </nav>
+    <div class="live">
+        ● LIVE
+    </div>
 
 </header>
 
 
-<!-- ================= MAIN ================= -->
+<div class="container">
 
-<main class="container">
+    <div class="meeting-title">
 
+        <h1>IKDA General Live Meeting</h1>
 
-    <!-- MEETING HEADER -->
-
-    <section class="meeting-header">
-
-        <div class="meeting-title-row">
-
-            <div class="meeting-title">
-
-                <h2>
-                    IKDA General Live Meeting
-                </h2>
-
-                <p>
-                    Live audio meeting for members of the Igala Kingdom Descendant Association
-                </p>
-
-            </div>
-
-            <div class="live">
-                🔴 LIVE
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <div class="meeting-grid">
-
-
-        <!-- ================= LEFT ================= -->
-
-        <div>
-
-
-            <section class="stage">
-
-                <h3 class="section-title">
-                    🎙️ Current Speakers
-                </h3>
-
-
-                <div class="speaker-grid">
-
-
-                    <div class="speaker active">
-
-                        <div class="avatar">
-                            IH
-                        </div>
-
-                        <h3>
-                            IKDA Host
-                        </h3>
-
-                        <p>
-                            Meeting Host
-                        </p>
-
-                        <span class="mic-status">
-                            🎙️ Speaking
-                        </span>
-
-                    </div>
-
-
-                    <div class="speaker">
-
-                        <div class="avatar">
-                            JP
-                        </div>
-
-                        <h3>
-                            IKDA President
-                        </h3>
-
-                        <p>
-                            President
-                        </p>
-
-                        <span class="mic-status">
-                            🎤 Microphone On
-                        </span>
-
-                    </div>
-
-
-                    <div class="speaker">
-
-                        <div class="avatar">
-                            JS
-                        </div>
-
-                        <h3>
-                            John Samuel
-                        </h3>
-
-                        <p>
-                            Speaker
-                        </p>
-
-                        <span class="mic-status">
-                            🔇 Muted
-                        </span>
-
-                    </div>
-
-
-                    <div class="speaker">
-
-                        <div class="avatar">
-                            DO
-                        </div>
-
-                        <h3>
-                            David Ojo
-                        </h3>
-
-                        <p>
-                            Speaker
-                        </p>
-
-                        <span class="mic-status">
-                            🎤 Microphone On
-                        </span>
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="listener-box">
-
-                    <div class="listener-header">
-
-                        <strong>
-                            👥 Listeners
-                        </strong>
-
-                        <span
-                            class="listener-count"
-                            id="participantCount"
-                        >
-                            527
-                        </span>
-
-                    </div>
-
-                    <p class="listener-text">
-                        Members are currently listening to the live audio meeting.
-                        Participants join as listeners by default and may request
-                        permission to speak.
-                    </p>
-
-                </div>
-
-
-            </section>
-
-
-        </div>
-
-
-        <!-- ================= RIGHT SIDE ================= -->
-
-        <aside>
-
-
-            <!-- MEETING INFORMATION -->
-
-            <div class="side-card">
-
-                <h3>
-                    📋 Meeting Information
-                </h3>
-
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Host
-                    </span>
-
-                    <strong>
-                        IKDA Leadership
-                    </strong>
-
-                </div>
-
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Type
-                    </span>
-
-                    <strong>
-                        Live Audio
-                    </strong>
-
-                </div>
-
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Participants
-                    </span>
-
-                    <strong id="sideParticipantCount">
-                        527
-                    </strong>
-
-                </div>
-
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Capacity
-                    </span>
-
-                    <strong>
-                        2,000+
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-            <!-- REQUEST TO SPEAK -->
-
-            <div class="side-card">
-
-                <h3>
-                    ✋ Want to Speak?
-                </h3>
-
-
-                <div class="request-card">
-
-                    <p>
-                        You are currently listening to the meeting.
-                        Request permission from the host if you want to speak.
-                    </p>
-
-
-                    <button
-                        onclick="requestSpeak()"
-                    >
-                        ✋ Request to Speak
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- CHAT -->
-
-            <div class="side-card" id="chat">
-
-                <h3>
-                    💬 Meeting Chat
-                </h3>
-
-
-                <div
-                    class="chat-box"
-                    id="chatBox"
-                >
-
-                    <div class="message">
-
-                        <strong>
-                            IKDA Host
-                        </strong>
-
-                        <p>
-                            Welcome everyone to the IKDA live meeting.
-                        </p>
-
-                    </div>
-
-
-                    <div class="message">
-
-                        <strong>
-                            John Samuel
-                        </strong>
-
-                        <p>
-                            Good morning everyone.
-                        </p>
-
-                    </div>
-
-
-                    <div class="message">
-
-                        <strong>
-                            Mary Audu
-                        </strong>
-
-                        <p>
-                            Greetings to all members.
-                        </p>
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="chat-input">
-
-                    <input
-                        type="text"
-                        id="chatInput"
-                        placeholder="Write a message..."
-                        onkeydown="handleChatKey(event)"
-                    >
-
-                    <button
-                        onclick="sendMessage()"
-                    >
-                        Send
-                    </button>
-
-                </div>
-
-            </div>
-
-
-        </aside>
-
+        <p>
+            Igala Kingdom Descendant Association
+        </p>
 
     </div>
 
-</main>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat">
+            <strong id="participantCount">527</strong>
+            Participants
+        </div>
+
+        <div class="stat">
+            <strong>4</strong>
+            Speakers
+        </div>
+
+        <div class="stat">
+            <strong>2,000+</strong>
+            Capacity
+        </div>
+
+    </div>
 
 
-<!-- ================= BOTTOM CONTROLS ================= -->
+    <!-- SPEAKERS -->
 
-<div class="controls">
+    <h2 class="section-title">
+        🎙 Speakers
+    </h2>
 
+    <div class="stage">
 
-    <button
-        class="control-btn"
-        id="micButton"
-        onclick="toggleMic()"
-    >
-        🎤 Microphone
-    </button>
+        <div class="speaker">
 
+            <div class="avatar">
+                JY
+            </div>
 
-    <button
-        class="control-btn"
-        onclick="requestSpeak()"
-    >
-        ✋ Request
-    </button>
+            <h3>
+                Dr. Pst. Joshua Yahaya
+            </h3>
 
+            <p class="speaking">
+                🎙 Speaking
+            </p>
 
-    <button
-        class="control-btn"
-        onclick="openParticipants()"
-    >
-        👥 Participants
-    </button>
+            <small>
+                Founder / President
+            </small>
 
-
-    <button
-        class="control-btn"
-        onclick="openChat()"
-    >
-        💬 Chat
-    </button>
+        </div>
 
 
-    <button
-        class="control-btn leave-btn"
-        onclick="leaveMeeting()"
-    >
-        🚪 Leave
-    </button>
+        <div class="speaker">
+
+            <div class="avatar">
+                IH
+            </div>
+
+            <h3>
+                IKDA Host
+            </h3>
+
+            <p class="speaking">
+                🎙 Host
+            </p>
+
+        </div>
+
+
+        <div class="speaker">
+
+            <div class="avatar">
+                JS
+            </div>
+
+            <h3>
+                John Samuel
+            </h3>
+
+            <p class="speaking">
+                🎙 Speaking
+            </p>
+
+        </div>
+
+
+        <div class="speaker">
+
+            <div class="avatar">
+                DO
+            </div>
+
+            <h3>
+                David Ojo
+            </h3>
+
+            <p class="speaking">
+                🎙 Speaking
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- LISTENERS -->
+
+    <h2 class="section-title">
+        🎧 Listeners
+    </h2>
+
+    <div class="listener-box">
+
+        <div class="big-number">
+            523
+        </div>
+
+        <p>
+            People currently listening
+        </p>
+
+    </div>
+
+
+    <!-- CHAT -->
+
+    <h2 class="section-title">
+        💬 Meeting Chat
+    </h2>
+
+    <div class="chat-box">
+
+        <div class="messages" id="messages">
+
+            <div class="message">
+                <strong>IKDA Host:</strong>
+                Welcome everyone to the IKDA General Meeting.
+            </div>
+
+            <div class="message">
+                <strong>John Samuel:</strong>
+                Greetings to everyone.
+            </div>
+
+        </div>
+
+
+        <div class="chat-input">
+
+            <input
+                id="chatInput"
+                type="text"
+                placeholder="Write a message..."
+                onkeydown="handleChatKey(event)"
+            >
+
+            <button
+                class="send"
+                onclick="sendMessage()"
+            >
+                Send
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTROLS -->
+
+    <div class="controls">
+
+        <button
+            class="control"
+            onclick="toggleMicrophone()"
+            id="micButton"
+        >
+            🎙 Microphone
+        </button>
+
+
+        <button
+            class="control"
+            onclick="requestToSpeak()"
+            id="requestButton"
+        >
+            🎙 Request to Speak
+        </button>
+
+
+        <button
+            class="control"
+            onclick="openParticipants()"
+        >
+            👥 Participants
+        </button>
+
+
+        <button
+            class="control"
+            onclick="showNotice('Audio settings will be available after Supabase/RTC connection.')"
+        >
+            🔊 Audio Settings
+        </button>
+
+
+        <button
+            class="control leave"
+            onclick="leaveMeeting()"
+        >
+            🚪 Leave Meeting
+        </button>
+
+    </div>
 
 </div>
 
 
-<!-- ================= PARTICIPANT PANEL ================= -->
+<!-- PARTICIPANTS POPUP -->
 
 <div
-    class="participant-panel"
-    id="participantPanel"
-    onclick="closeParticipantPanel(event)"
+    class="overlay"
+    id="participantOverlay"
+    onclick="closeOverlayOutside(event)"
 >
 
+    <div class="participant-panel">
 
-    <div
-        class="participant-window"
-        onclick="event.stopPropagation()"
-    >
-
-
-        <div class="participant-top">
+        <div class="panel-header">
 
             <h2>
-                👥 People in the Meeting
+                👥 Participants
             </h2>
 
             <button
-                class="close-btn"
+                class="close"
                 onclick="closeParticipants()"
             >
                 ×
@@ -1068,52 +717,55 @@
         </div>
 
 
-        <div class="participant-stats">
+        <!-- SEARCH -->
+
+        <input
+            id="participantSearch"
+            type="text"
+            placeholder="Search participants..."
+            onkeyup="searchParticipants()"
+            style="
+            width:100%;
+            padding:12px;
+            margin-bottom:15px;
+            border-radius:8px;
+            border:1px solid #315847;
+            background:#071e16;
+            color:white;
+            "
+        >
 
 
-            <div class="participant-stat">
+        <div id="participantList">
 
-                <strong id="panelTotal">
-                    527
-                </strong>
 
-                <span>
-                    Participants
-                </span>
+            <div class="participant">
+
+                <div class="participant-left">
+
+                    <div class="small-avatar">
+                        JY
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Dr. Pst. Joshua Yahaya
+                        </strong>
+
+                        <div class="status speaking">
+                            🎙 Speaking • Founder / President
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button>
+                    Speaker
+                </button>
 
             </div>
-
-
-            <div class="participant-stat">
-
-                <strong>
-                    523
-                </strong>
-
-                <span>
-                    Listeners
-                </span>
-
-            </div>
-
-
-            <div class="participant-stat">
-
-                <strong>
-                    4
-                </strong>
-
-                <span>
-                    Speakers
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-        <div class="participant-list">
 
 
             <div class="participant">
@@ -1126,50 +778,21 @@
 
                     <div>
 
-                        <div class="participant-name">
+                        <strong>
                             IKDA Host
-                        </div>
+                        </strong>
 
-                        <div class="participant-role">
-                            Meeting Host
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="participant-status">
-                    🎙️ Speaking
-                </div>
-
-            </div>
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        JP
-                    </div>
-
-                    <div>
-
-                        <div class="participant-name">
-                            IKDA President
-                        </div>
-
-                        <div class="participant-role">
-                            President
+                        <div class="status speaking">
+                            🎙 Host
                         </div>
 
                     </div>
 
                 </div>
 
-                <div class="participant-status">
-                    🎤 Speaker
-                </div>
+                <button>
+                    Host
+                </button>
 
             </div>
 
@@ -1184,108 +807,21 @@
 
                     <div>
 
-                        <div class="participant-name">
+                        <strong>
                             John Samuel
-                        </div>
+                        </strong>
 
-                        <div class="participant-role">
-                            Kogi State • Dekina
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="participant-status">
-                    🎤 Speaker
-                </div>
-
-            </div>
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        MA
-                    </div>
-
-                    <div>
-
-                        <div class="participant-name">
-                            Mary Audu
-                        </div>
-
-                        <div class="participant-role">
-                            Kogi State • Ankpa
+                        <div class="status speaking">
+                            🎙 Speaking
                         </div>
 
                     </div>
 
                 </div>
 
-                <div class="participant-status">
-                    🔊 Listening
-                </div>
-
-            </div>
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        IM
-                    </div>
-
-                    <div>
-
-                        <div class="participant-name">
-                            Ibrahim Musa
-                        </div>
-
-                        <div class="participant-role">
-                            FCT Abuja • Bwari
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="participant-status">
-                    🔊 Listening
-                </div>
-
-            </div>
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        GO
-                    </div>
-
-                    <div>
-
-                        <div class="participant-name">
-                            Grace Oche
-                        </div>
-
-                        <div class="participant-role">
-                            Benue State • Otukpo
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="participant-status">
-                    🔇 Muted
-                </div>
+                <button>
+                    Speaker
+                </button>
 
             </div>
 
@@ -1300,21 +836,79 @@
 
                     <div>
 
-                        <div class="participant-name">
+                        <strong>
                             David Ojo
-                        </div>
+                        </strong>
 
-                        <div class="participant-role">
-                            Kogi State • Idah
+                        <div class="status speaking">
+                            🎙 Speaking
                         </div>
 
                     </div>
 
                 </div>
 
-                <div class="participant-status">
-                    🎤 Speaker
+                <button>
+                    Speaker
+                </button>
+
+            </div>
+
+
+            <div class="participant">
+
+                <div class="participant-left">
+
+                    <div class="small-avatar">
+                        AM
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Abraham Mora
+                        </strong>
+
+                        <div class="status">
+                            🎧 Listening
+                        </div>
+
+                    </div>
+
                 </div>
+
+                <button>
+                    Listener
+                </button>
+
+            </div>
+
+
+            <div class="participant">
+
+                <div class="participant-left">
+
+                    <div class="small-avatar">
+                        AO
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Abel Oche
+                        </strong>
+
+                        <div class="status">
+                            🎧 Listening
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button>
+                    Listener
+                </button>
 
             </div>
 
@@ -1326,185 +920,45 @@
 </div>
 
 
-<!-- ================= TOAST ================= -->
+<!-- NOTICE -->
 
 <div
-    class="toast"
-    id="toast"
-></div>
+    class="notice"
+    id="notice"
+>
+</div>
 
 
 <script>
 
-/* =====================================================
-   IKDA LIVE MEETING JAVASCRIPT
-   ===================================================== */
-
-
-/* ================= TOAST ================= */
-
-function showToast(message) {
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent = message;
-
-    toast.classList.add("show");
-
-
-    setTimeout(function () {
-
-        toast.classList.remove("show");
-
-    }, 2500);
-
-}
-
-
-/* ================= MICROPHONE ================= */
-
-let micOn = false;
-
-
-async function toggleMic() {
-
-    const button =
-        document.getElementById("micButton");
-
-
-    if (!micOn) {
-
-        try {
-
-            const stream =
-                await navigator.mediaDevices
-                    .getUserMedia({
-                        audio: true
-                    });
-
-
-            stream
-                .getTracks()
-                .forEach(track => {
-
-                    track.stop();
-
-                });
-
-
-            micOn = true;
-
-            button.classList.add("active");
-
-            button.textContent =
-                "🔇 Mute";
-
-            showToast(
-                "Microphone permission granted."
-            );
-
-        } catch (error) {
-
-            showToast(
-                "Microphone permission was denied."
-            );
-
-        }
-
-    } else {
-
-        micOn = false;
-
-        button.classList.remove("active");
-
-        button.textContent =
-            "🎤 Microphone";
-
-        showToast(
-            "Microphone muted."
-        );
-
-    }
-
-}
-
-
-/* ================= REQUEST TO SPEAK ================= */
-
-let requestSent = false;
-
-
-function requestSpeak() {
-
-    if (requestSent) {
-
-        showToast(
-            "Your request is already waiting for the host."
-        );
-
-        return;
-    }
-
-
-    requestSent = true;
-
-
-    showToast(
-        "Request to speak sent to the host."
-    );
-
-}
-
-
-/* ================= PARTICIPANTS ================= */
-
-/*
- * This opens the participant panel directly
- * inside the meeting page.
- */
+/* =========================
+   PARTICIPANTS
+========================= */
 
 function openParticipants() {
 
-    const panel =
-        document.getElementById(
-            "participantPanel"
-        );
+    document
+        .getElementById("participantOverlay")
+        .classList.add("show");
 
-
-    panel.classList.add("show");
-
-    document.body.style.overflow =
-        "hidden";
-
+    document.body.style.overflow = "hidden";
 }
 
-
-/* ================= CLOSE PARTICIPANTS ================= */
 
 function closeParticipants() {
 
-    const panel =
-        document.getElementById(
-            "participantPanel"
-        );
+    document
+        .getElementById("participantOverlay")
+        .classList.remove("show");
 
-
-    panel.classList.remove("show");
-
-    document.body.style.overflow =
-        "auto";
-
+    document.body.style.overflow = "auto";
 }
 
 
-/* ================= CLOSE BY BACKGROUND ================= */
-
-function closeParticipantPanel(event) {
+function closeOverlayOutside(event) {
 
     if (
-        event.target.id ===
-        "participantPanel"
+        event.target.id === "participantOverlay"
     ) {
 
         closeParticipants();
@@ -1514,33 +968,120 @@ function closeParticipantPanel(event) {
 }
 
 
-/* ================= OPEN CHAT ================= */
+/* =========================
+   REQUEST TO SPEAK
+========================= */
 
-function openChat() {
+function requestToSpeak() {
 
-    const chat =
-        document.getElementById("chat");
-
-
-    chat.scrollIntoView({
-        behavior: "smooth"
-    });
+    const button =
+        document.getElementById("requestButton");
 
 
-    const input =
-        document.getElementById("chatInput");
+    if (
+        button.dataset.requested === "true"
+    ) {
+
+        showNotice(
+            "Your request is already pending."
+        );
+
+        return;
+    }
 
 
-    setTimeout(function () {
+    button.dataset.requested = "true";
 
-        input.focus();
+    button.innerHTML =
+        "⏳ Request Pending";
 
-    }, 500);
+    button.style.opacity = "0.65";
+
+    showNotice(
+        "Your request to speak has been sent to the host."
+    );
 
 }
 
 
-/* ================= SEND CHAT ================= */
+/* =========================
+   MICROPHONE
+========================= */
+
+let microphoneOn = false;
+
+
+async function toggleMicrophone() {
+
+    const button =
+        document.getElementById("micButton");
+
+
+    if (!microphoneOn) {
+
+        try {
+
+            const stream =
+                await navigator.mediaDevices.getUserMedia({
+                    audio: true
+                });
+
+
+            microphoneOn = true;
+
+            button.innerHTML =
+                "🔴 Microphone ON";
+
+
+            window.ikdaAudioStream =
+                stream;
+
+
+            showNotice(
+                "Microphone permission granted."
+            );
+
+        }
+
+        catch(error) {
+
+            showNotice(
+                "Microphone permission was not granted."
+            );
+
+        }
+
+    }
+
+    else {
+
+        if (window.ikdaAudioStream) {
+
+            window.ikdaAudioStream
+                .getTracks()
+                .forEach(track => track.stop());
+
+        }
+
+
+        microphoneOn = false;
+
+        button.innerHTML =
+            "🎙 Microphone";
+
+
+        showNotice(
+            "Microphone turned off."
+        );
+
+    }
+
+}
+
+
+/* =========================
+   CHAT
+========================= */
 
 function sendMessage() {
 
@@ -1548,63 +1089,45 @@ function sendMessage() {
         document.getElementById("chatInput");
 
 
-    const text =
+    const message =
         input.value.trim();
 
 
-    if (!text) {
+    if (!message) {
 
         return;
+
     }
 
 
-    const chat =
-        document.getElementById("chatBox");
+    const messages =
+        document.getElementById("messages");
 
 
-    const message =
+    const newMessage =
         document.createElement("div");
 
 
-    message.className =
+    newMessage.className =
         "message";
 
 
-    const safeText =
-        text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+    newMessage.innerHTML =
+        "<strong>You:</strong> " +
+        escapeHTML(message);
 
 
-    message.innerHTML = `
-
-        <strong>
-            You
-        </strong>
-
-        <p>
-            ${safeText}
-        </p>
-
-    `;
+    messages.appendChild(newMessage);
 
 
-    chat.appendChild(message);
-
-
-    chat.scrollTop =
-        chat.scrollHeight;
+    messages.scrollTop =
+        messages.scrollHeight;
 
 
     input.value = "";
 
 }
 
-
-/* ================= CHAT ENTER KEY ================= */
 
 function handleChatKey(event) {
 
@@ -1617,7 +1140,102 @@ function handleChatKey(event) {
 }
 
 
-/* ================= LEAVE MEETING ================= */
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+   SEARCH PARTICIPANTS
+========================= */
+
+function searchParticipants() {
+
+    const search =
+        document
+        .getElementById("participantSearch")
+        .value
+        .toLowerCase();
+
+
+    const participants =
+        document.querySelectorAll(
+            "#participantList .participant"
+        );
+
+
+    participants.forEach(
+        participant => {
+
+            const name =
+                participant
+                .querySelector("strong")
+                .textContent
+                .toLowerCase();
+
+
+            if (
+                name.includes(search)
+            ) {
+
+                participant.style.display =
+                    "flex";
+
+            }
+
+            else {
+
+                participant.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================
+   NOTICE
+========================= */
+
+function showNotice(message) {
+
+    const notice =
+        document.getElementById("notice");
+
+
+    notice.textContent =
+        message;
+
+
+    notice.classList.add("show");
+
+
+    setTimeout(
+        () => {
+
+            notice.classList.remove("show");
+
+        },
+        3000
+    );
+
+}
+
+
+/* =========================
+   LEAVE MEETING
+========================= */
 
 function leaveMeeting() {
 
@@ -1627,63 +1245,19 @@ function leaveMeeting() {
         );
 
 
-    if (!confirmed) {
+    if (confirmed) {
 
-        return;
+        window.location.href =
+            "index.html";
+
     }
-
-
-    window.location.href =
-        "join.html";
 
 }
 
 
-/* ================= DEMO PARTICIPANT COUNT ================= */
-
-let participantCount = 527;
-
-
-setInterval(function () {
-
-    const change =
-        Math.floor(
-            Math.random() * 5
-        ) - 2;
-
-
-    participantCount += change;
-
-
-    if (participantCount < 500) {
-
-        participantCount = 500;
-
-    }
-
-
-    document.getElementById(
-        "participantCount"
-    ).textContent =
-        participantCount;
-
-
-    document.getElementById(
-        "sideParticipantCount"
-    ).textContent =
-        participantCount;
-
-
-    document.getElementById(
-        "panelTotal"
-    ).textContent =
-        participantCount;
-
-
-}, 5000);
-
-
-/* ================= ESCAPE KEY ================= */
+/* =========================
+   ESC KEY
+========================= */
 
 document.addEventListener(
     "keydown",
