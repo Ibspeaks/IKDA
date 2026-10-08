@@ -9,166 +9,125 @@
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
     }
 
     body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #061b14, #0b3d2e);
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
       color: white;
+      min-height: 100vh;
     }
 
     header {
-      padding: 20px;
+      background: #111c33;
+      padding: 18px;
       text-align: center;
-      background: rgba(0,0,0,0.3);
-      border-bottom: 1px solid rgba(255,255,255,0.15);
+      border-bottom: 1px solid #263552;
     }
 
     header h1 {
-      color: #ffd700;
-      font-size: 28px;
+      margin: 0;
+      font-size: 26px;
     }
 
     header p {
-      color: #ccc;
-      margin-top: 5px;
+      margin: 6px 0 0;
+      color: #aebbd3;
     }
 
     .container {
-      width: 94%;
-      max-width: 800px;
+      width: 92%;
+      max-width: 700px;
       margin: 25px auto;
     }
 
     .card {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
+      background: #111c33;
+      border: 1px solid #263552;
       border-radius: 18px;
       padding: 22px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      margin-bottom: 18px;
     }
 
-    .meeting-info {
-      text-align: center;
-    }
-
-    .meeting-info h2 {
-      color: #ffd700;
-      margin-bottom: 10px;
-    }
-
-    .meeting-code {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 18px;
-      border: 1px solid #ffd700;
-      border-radius: 10px;
-      color: #ffd700;
+    .room {
+      font-size: 18px;
       font-weight: bold;
-      letter-spacing: 2px;
+      margin-bottom: 8px;
     }
 
     .status {
-      margin-top: 15px;
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 20px;
-      background: #16a085;
-      font-size: 13px;
+      color: #aebbd3;
+      margin-bottom: 20px;
+    }
+
+    .mic {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: none;
+      background: #34445f;
+      color: white;
+      font-size: 42px;
+      display: block;
+      margin: 25px auto;
+      cursor: pointer;
+    }
+
+    .mic.live {
+      background: #d32f2f;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button.action {
+      border: none;
+      padding: 14px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    #joinBtn {
+      background: #1976d2;
+      color: white;
+    }
+
+    #leaveBtn {
+      background: #d32f2f;
+      color: white;
     }
 
     .participants {
       margin-top: 20px;
     }
 
-    .participants h3 {
-      color: #ffd700;
-      margin-bottom: 12px;
-    }
-
     .participant {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(0,0,0,0.25);
-      padding: 14px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-    }
-
-    .avatar {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: #ffd700;
-      color: #111;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-
-    .participant-info strong {
-      display: block;
-    }
-
-    .participant-info span {
-      color: #aaa;
-      font-size: 13px;
-    }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 25px;
-    }
-
-    button {
-      border: none;
-      border-radius: 12px;
-      padding: 14px 20px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .mic {
-      background: #16a085;
-      color: white;
-    }
-
-    .muted {
-      background: #e74c3c;
-      color: white;
-    }
-
-    .leave {
-      background: #b71c1c;
-      color: white;
-    }
-
-    .message {
-      margin-top: 20px;
+      background: #182640;
       padding: 12px;
       border-radius: 10px;
-      background: rgba(255,255,255,0.08);
-      text-align: center;
-      display: none;
+      margin-top: 8px;
     }
 
-    audio {
-      display: none;
+    .speaker {
+      color: #4caf50;
+      font-weight: bold;
     }
 
-    @media (max-width: 600px) {
-      .controls button {
-        width: 100%;
-      }
+    #error {
+      display: none;
+      background: #3b1717;
+      border: 1px solid #8d3333;
+      color: #ffb3b3;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 15px;
     }
   </style>
 </head>
@@ -180,515 +139,413 @@
   <p>Igala Kingdom Descendants Association</p>
 </header>
 
-
 <div class="container">
-
-  <div class="card meeting-info">
-
-    <h2>Live Audio Meeting</h2>
-
-    <p id="welcomeText">
-      Connecting to meeting...
-    </p>
-
-    <div class="meeting-code" id="meetingCode">
-      ------
-    </div>
-
-    <br>
-
-    <span class="status" id="connectionStatus">
-      Connecting...
-    </span>
-
-  </div>
-
 
   <div class="card">
 
-    <div class="participants">
-
-      <h3>Participants</h3>
-
-      <div id="participantsList">
-
-        <div class="participant">
-
-          <div class="avatar" id="myAvatar">
-            ME
-          </div>
-
-          <div class="participant-info">
-
-            <strong id="myName">
-              You
-            </strong>
-
-            <span id="myStatus">
-              Connecting microphone...
-            </span>
-
-          </div>
-
-        </div>
-
-      </div>
-
+    <div class="room">
+      Meeting Code:
+      <span id="roomName">Loading...</span>
     </div>
 
+    <div class="status" id="status">
+      Ready to join.
+    </div>
 
-    <div class="controls">
+    <button
+      id="micBtn"
+      class="mic"
+      title="Microphone"
+    >
+      🎙️
+    </button>
+
+    <div class="buttons">
 
       <button
-        class="mic"
-        id="micButton"
-        onclick="toggleMicrophone()">
-        🎤 Mute Microphone
+        id="joinBtn"
+        class="action"
+      >
+        Join Audio
       </button>
 
       <button
-        class="leave"
-        onclick="leaveMeeting()">
-        🚪 Leave Meeting
+        id="leaveBtn"
+        class="action"
+      >
+        Leave Meeting
       </button>
 
     </div>
 
+    <div id="error"></div>
 
-    <div class="message" id="message">
+  </div>
+
+  <div class="card">
+
+    <h3>Participants</h3>
+
+    <div id="participants">
+      No participants connected yet.
     </div>
 
   </div>
 
 </div>
 
+<script type="module">
 
-<!-- Remote audio players will be added here -->
-
-<div id="audioContainer"></div>
-
-
-<script>
-
-  /*
-  =====================================================
-  GET MEETING INFORMATION
-  =====================================================
-  */
-
-  const params =
-    new URLSearchParams(window.location.search);
-
-  const meetingCode =
-    params.get("room") ||
-    localStorage.getItem("ikdaMeetingCode") ||
-    "IKDA";
+import {
+  Room,
+  RoomEvent,
+  Track
+} from "https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.esm.mjs";
 
 
-  const participantName =
-    localStorage.getItem("ikdaParticipantName") ||
-    "Participant";
+const SUPABASE_URL =
+  "https://dvskuudjamineqbvvjld.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_r8v8E93qy_DpvNhL9pvyKQ_HZBLaBm5";
+
+const LIVEKIT_URL =
+  "wss://ikda-live-fixk0pvi.livekit.cloud";
 
 
-  /*
-  =====================================================
-  DISPLAY INFORMATION
-  =====================================================
-  */
+const roomNameElement =
+  document.getElementById("roomName");
 
-  document.getElementById("meetingCode")
-    .textContent =
-    meetingCode;
+const statusElement =
+  document.getElementById("status");
 
+const micBtn =
+  document.getElementById("micBtn");
 
-  document.getElementById("myName")
-    .textContent =
-    participantName;
+const joinBtn =
+  document.getElementById("joinBtn");
 
+const leaveBtn =
+  document.getElementById("leaveBtn");
 
-  document.getElementById("welcomeText")
-    .textContent =
-    "Welcome, " + participantName;
+const participantsElement =
+  document.getElementById("participants");
 
-
-  /*
-  =====================================================
-  AVATAR
-  =====================================================
-  */
-
-  const firstLetter =
-    participantName
-      .charAt(0)
-      .toUpperCase();
+const errorElement =
+  document.getElementById("error");
 
 
-  document.getElementById("myAvatar")
-    .textContent =
-    firstLetter;
+const params =
+  new URLSearchParams(window.location.search);
+
+const roomName =
+  params.get("room") ||
+  localStorage.getItem("ikdaMeetingCode") ||
+  "IKDA-LIVE";
+
+const participantName =
+  localStorage.getItem("ikdaParticipantName") ||
+  "IKDA Participant";
+
+roomNameElement.textContent =
+  roomName;
 
 
-  /*
-  =====================================================
-  WEBRTC VARIABLES
-  =====================================================
-  */
+const room = new Room({
+  adaptiveStream: true,
+  dynacast: true
+});
 
-  let localStream = null;
-
-  let microphoneEnabled = false;
-
-  let peerConnections = {};
+let joined = false;
+let microphoneOn = false;
 
 
-  /*
-  =====================================================
-  WEBRTC CONFIGURATION
-  =====================================================
-  */
+function showError(message) {
 
-  const rtcConfiguration = {
+  errorElement.style.display =
+    "block";
 
-    iceServers: [
+  errorElement.textContent =
+    message;
 
-      {
-        urls: "stun:stun.l.google.com:19302"
+}
+
+
+async function getToken() {
+
+  const response = await fetch(
+    `${SUPABASE_URL}/functions/v1/livekit-token`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_PUBLISHABLE_KEY,
+        "Authorization":
+          `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
       },
 
-      {
-        urls: "stun:stun1.l.google.com:19302"
-      }
-
-    ]
-
-  };
-
-
-  /*
-  =====================================================
-  GET MICROPHONE
-  =====================================================
-  */
-
-  async function startMicrophone() {
-
-    try {
-
-      localStream =
-        await navigator.mediaDevices.getUserMedia({
-
-          audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            autoGainControl: true
-          },
-
-          video: false
-
-        });
-
-
-      microphoneEnabled = true;
-
-
-      document.getElementById("myStatus")
-        .textContent =
-        "Microphone connected";
-
-
-      document.getElementById("connectionStatus")
-        .textContent =
-        "Connected";
-
-
-      showMessage(
-        "Microphone connected successfully."
-      );
-
-
-    } catch (error) {
-
-      console.error(
-        "Microphone error:",
-        error
-      );
-
-
-      document.getElementById("myStatus")
-        .textContent =
-        "Microphone unavailable";
-
-
-      showMessage(
-        "Please allow microphone permission in your browser."
-      );
-
+      body: JSON.stringify({
+        roomName: roomName,
+        participantName: participantName
+      })
     }
+  );
+
+  const data =
+    await response.json();
+
+  if (!response.ok) {
+
+    throw new Error(
+      data.error ||
+      "Unable to obtain meeting token."
+    );
 
   }
 
-
-  /*
-  =====================================================
-  MUTE / UNMUTE
-  =====================================================
-  */
-
-  function toggleMicrophone() {
-
-    if (!localStream) {
-
-      startMicrophone();
-
-      return;
-
-    }
+  return data.token;
+}
 
 
-    const tracks =
-      localStream.getAudioTracks();
+function updateParticipants() {
 
-
-    if (tracks.length === 0) {
-
-      return;
-
-    }
-
-
-    microphoneEnabled =
-      !microphoneEnabled;
-
-
-    tracks.forEach(
-      track => {
-
-        track.enabled =
-          microphoneEnabled;
-
-      }
+  const remoteParticipants =
+    Array.from(
+      room.remoteParticipants.values()
     );
 
+  participantsElement.innerHTML = "";
 
-    const button =
-      document.getElementById("micButton");
+  const localDiv =
+    document.createElement("div");
+
+  localDiv.className =
+    "participant";
+
+  localDiv.innerHTML =
+    `<strong>${participantName}</strong>
+     <span class="speaker"> — You</span>`;
+
+  participantsElement.appendChild(
+    localDiv
+  );
 
 
-    if (microphoneEnabled) {
+  remoteParticipants.forEach(
+    participant => {
 
-      button.textContent =
-        "🎤 Mute Microphone";
+      const div =
+        document.createElement("div");
 
-      button.className =
-        "mic";
+      div.className =
+        "participant";
 
-      document.getElementById("myStatus")
-        .textContent =
-        "Microphone on";
+      div.textContent =
+        participant.name ||
+        participant.identity;
+
+      participantsElement.appendChild(
+        div
+      );
+
+    }
+  );
+
+}
+
+
+async function joinMeeting() {
+
+  try {
+
+    errorElement.style.display =
+      "none";
+
+    statusElement.textContent =
+      "Getting secure meeting access...";
+
+    const token =
+      await getToken();
+
+    statusElement.textContent =
+      "Connecting to IKDA Live...";
+
+    await room.connect(
+      LIVEKIT_URL,
+      token
+    );
+
+    joined = true;
+
+    /*
+      IMPORTANT:
+      Everyone starts muted.
+    */
+
+    await room.localParticipant
+      .setMicrophoneEnabled(false);
+
+    microphoneOn = false;
+
+    micBtn.classList.remove("live");
+
+    statusElement.textContent =
+      "Connected — microphone is muted.";
+
+    joinBtn.style.display =
+      "none";
+
+    updateParticipants();
+
+  } catch (error) {
+
+    console.error(error);
+
+    statusElement.textContent =
+      "Connection failed.";
+
+    showError(
+      error.message ||
+      "Unable to join the meeting."
+    );
+
+  }
+
+}
+
+
+micBtn.addEventListener(
+  "click",
+  async () => {
+
+    if (!joined) {
+
+      showError(
+        "Join the meeting first."
+      );
+
+      return;
+
+    }
+
+    microphoneOn =
+      !microphoneOn;
+
+    await room.localParticipant
+      .setMicrophoneEnabled(
+        microphoneOn
+      );
+
+    if (microphoneOn) {
+
+      micBtn.classList.add("live");
+
+      statusElement.textContent =
+        "Your microphone is LIVE.";
 
     } else {
 
-      button.textContent =
-        "🔇 Unmute Microphone";
+      micBtn.classList.remove("live");
 
-      button.className =
-        "muted";
-
-      document.getElementById("myStatus")
-        .textContent =
-        "Microphone muted";
+      statusElement.textContent =
+        "Your microphone is muted.";
 
     }
 
   }
+);
 
 
-  /*
-  =====================================================
-  CREATE PEER CONNECTION
-  =====================================================
-  */
+room.on(
+  RoomEvent.ParticipantConnected,
+  () => {
 
-  function createPeerConnection(participantId) {
+    updateParticipants();
 
-    const peerConnection =
-      new RTCPeerConnection(
-        rtcConfiguration
+  }
+);
+
+
+room.on(
+  RoomEvent.ParticipantDisconnected,
+  () => {
+
+    updateParticipants();
+
+  }
+);
+
+
+room.on(
+  RoomEvent.TrackSubscribed,
+  (
+    track,
+    publication,
+    participant
+  ) => {
+
+    if (
+      track.kind === Track.Kind.Audio
+    ) {
+
+      const audioElement =
+        track.attach();
+
+      audioElement.autoplay =
+        true;
+
+      document.body.appendChild(
+        audioElement
       );
 
-
-    if (localStream) {
-
-      localStream
-        .getTracks()
-        .forEach(
-          track => {
-
-            peerConnection.addTrack(
-              track,
-              localStream
-            );
-
-          }
-        );
-
     }
-
-
-    /*
-    RECEIVE REMOTE AUDIO
-    */
-
-    peerConnection.ontrack =
-      function(event) {
-
-        let audio =
-          document.getElementById(
-            "audio-" + participantId
-          );
-
-
-        if (!audio) {
-
-          audio =
-            document.createElement(
-              "audio"
-            );
-
-          audio.id =
-            "audio-" + participantId;
-
-          audio.autoplay = true;
-
-          audio.controls = false;
-
-          document
-            .getElementById(
-              "audioContainer"
-            )
-            .appendChild(audio);
-
-        }
-
-
-        audio.srcObject =
-          event.streams[0];
-
-      };
-
-
-    /*
-    ICE CANDIDATES
-    */
-
-    peerConnection.onicecandidate =
-      function(event) {
-
-        if (event.candidate) {
-
-          /*
-          Supabase signaling will send
-          this candidate to the other participant.
-          */
-
-          console.log(
-            "ICE candidate:",
-            event.candidate
-          );
-
-        }
-
-      };
-
-
-    peerConnections[
-      participantId
-    ] =
-      peerConnection;
-
-
-    return peerConnection;
 
   }
+);
 
 
-  /*
-  =====================================================
-  LEAVE MEETING
-  =====================================================
-  */
+room.on(
+  RoomEvent.Disconnected,
+  () => {
 
-  function leaveMeeting() {
+    joined = false;
 
-    if (localStream) {
+    microphoneOn = false;
 
-      localStream
-        .getTracks()
-        .forEach(
-          track =>
-            track.stop()
-        );
+    statusElement.textContent =
+      "You have left the meeting.";
+
+    joinBtn.style.display =
+      "inline-block";
+
+    updateParticipants();
+
+  }
+);
+
+
+joinBtn.addEventListener(
+  "click",
+  joinMeeting
+);
+
+
+leaveBtn.addEventListener(
+  "click",
+  async () => {
+
+    if (joined) {
+
+      await room.disconnect();
 
     }
-
-
-    Object.values(
-      peerConnections
-    ).forEach(
-      connection =>
-        connection.close()
-    );
-
-
-    peerConnections = {};
-
 
     window.location.href =
       "index.html";
 
   }
-
-
-  /*
-  =====================================================
-  MESSAGE
-  =====================================================
-  */
-
-  function showMessage(message) {
-
-    const element =
-      document.getElementById(
-        "message"
-      );
-
-    element.textContent =
-      message;
-
-    element.style.display =
-      "block";
-
-
-    setTimeout(
-      function() {
-
-        element.style.display =
-          "none";
-
-      },
-      4000
-    );
-
-  }
-
-
-  /*
-  =====================================================
-  START
-  =====================================================
-  */
-
-  startMicrophone();
+);
 
 </script>
 
