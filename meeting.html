@@ -1,1278 +1,694 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>IKDA LIVE - Meeting</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: #061a13;
-    color: white;
-    min-height: 100vh;
-}
-
-/* HEADER */
-
-header {
-    background: #0b2d21;
-    border-bottom: 2px solid #d4af37;
-    padding: 15px 18px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    color: #d4af37;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.live {
-    background: #d62828;
-    padding: 6px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-/* MAIN */
-
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 20px;
-}
-
-.meeting-title {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.meeting-title h1 {
-    color: #d4af37;
-    margin-bottom: 8px;
-}
-
-.meeting-title p {
-    color: #a9bdb5;
-}
-
-/* STATS */
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.stat {
-    background: #0c3024;
-    border: 1px solid #194c3a;
-    border-radius: 12px;
-    padding: 18px;
-    text-align: center;
-}
-
-.stat strong {
-    display: block;
-    font-size: 25px;
-    color: #d4af37;
-    margin-bottom: 5px;
-}
-
-/* STAGE */
-
-.section-title {
-    color: #d4af37;
-    margin: 25px 0 12px;
-}
-
-.stage {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-}
-
-.speaker {
-    background: #0c3024;
-    border: 1px solid #194c3a;
-    border-radius: 14px;
-    padding: 20px;
-    text-align: center;
-}
-
-.avatar {
-    width: 65px;
-    height: 65px;
-
-    border-radius: 50%;
-
-    background: #d4af37;
-    color: #061a13;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin: auto;
-    margin-bottom: 12px;
-
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.speaker h3 {
-    margin-bottom: 6px;
-}
-
-.speaking {
-    color: #5cff9d;
-    font-size: 13px;
-}
-
-/* LISTENERS */
-
-.listener-box {
-    background: #0c3024;
-    border: 1px solid #194c3a;
-    border-radius: 14px;
-    padding: 25px;
-    text-align: center;
-}
-
-.listener-box .big-number {
-    color: #d4af37;
-    font-size: 42px;
-    font-weight: bold;
-}
-
-/* CHAT */
-
-.chat-box {
-    background: #0c3024;
-    border: 1px solid #194c3a;
-    border-radius: 14px;
-    padding: 15px;
-}
-
-.messages {
-    height: 180px;
-    overflow-y: auto;
-    margin-bottom: 12px;
-}
-
-.message {
-    background: #123d2e;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 8px;
-}
-
-.chat-input {
-    display: flex;
-    gap: 8px;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #315847;
-
-    background: #071e16;
-    color: white;
-}
-
-button {
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.send {
-    background: #d4af37;
-    color: #061a13;
-    border-radius: 8px;
-    padding: 12px 18px;
-}
-
-/* CONTROLS */
-
-.controls {
-    position: sticky;
-    bottom: 0;
-
-    background: #071e16;
-
-    border-top: 1px solid #315847;
-
-    padding: 14px;
-
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 10px;
-
-    justify-content: center;
-
-    margin-top: 25px;
-}
-
-.control {
-    background: #123d2e;
-    color: white;
-
-    border: 1px solid #315847;
-
-    padding: 12px 15px;
-
-    border-radius: 9px;
-}
-
-.control:hover {
-    background: #18523d;
-}
-
-.leave {
-    background: #a51d1d;
-    border-color: #a51d1d;
-}
-
-/* PARTICIPANT POPUP */
-
-.overlay {
-    position: fixed;
-
-    inset: 0;
-
-    background: rgba(0,0,0,.75);
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    z-index: 1000;
-
-    padding: 15px;
-}
-
-.overlay.show {
-    display: flex;
-}
-
-.participant-panel {
-    width: 100%;
-    max-width: 550px;
-
-    max-height: 85vh;
-
-    overflow-y: auto;
-
-    background: #0b2d21;
-
-    border: 2px solid #d4af37;
-
-    border-radius: 16px;
-
-    padding: 20px;
-}
-
-.panel-header {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 20px;
-}
-
-.panel-header h2 {
-    color: #d4af37;
-}
-
-.close {
-    background: #a51d1d;
-
-    color: white;
-
-    width: 35px;
-    height: 35px;
-
-    border-radius: 50%;
-
-    font-size: 18px;
-}
-
-.participant {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 10px;
-
-    background: #123d2e;
-
-    border: 1px solid #245b47;
-
-    border-radius: 10px;
-
-    padding: 12px;
-
-    margin-bottom: 10px;
-}
-
-.participant-left {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-}
-
-.small-avatar {
-    width: 42px;
-    height: 42px;
-
-    border-radius: 50%;
-
-    background: #d4af37;
-
-    color: #061a13;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-weight: bold;
-}
-
-.status {
-    font-size: 12px;
-    color: #9db1a8;
-
-    margin-top: 3px;
-}
-
-.status.speaking {
-    color: #5cff9d;
-}
-
-.participant button {
-    background: #d4af37;
-
-    color: #061a13;
-
-    padding: 7px 10px;
-
-    border-radius: 6px;
-}
-
-/* NOTICE */
-
-.notice {
-    display: none;
-
-    position: fixed;
-
-    top: 20px;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    background: #d4af37;
-
-    color: #061a13;
-
-    padding: 13px 20px;
-
-    border-radius: 10px;
-
-    font-weight: bold;
-
-    z-index: 2000;
-
-    box-shadow: 0 5px 20px rgba(0,0,0,.4);
-}
-
-.notice.show {
-    display: block;
-}
-
-/* MOBILE */
-
-@media(max-width:700px) {
-
-    .stage {
-        grid-template-columns: repeat(2, 1fr);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IKDA Live Meeting</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }
 
-    .stats {
-        grid-template-columns: 1fr;
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #061b14, #0b3d2e);
+      color: white;
     }
 
-}
-
-@media(max-width:450px) {
-
-    .stage {
-        grid-template-columns: 1fr 1fr;
+    header {
+      padding: 20px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
     }
 
-    .control {
-        flex: 1 1 45%;
+    header h1 {
+      color: #ffd700;
+      font-size: 28px;
     }
 
-}
+    header p {
+      color: #ccc;
+      margin-top: 5px;
+    }
 
-</style>
+    .container {
+      width: 94%;
+      max-width: 800px;
+      margin: 25px auto;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .meeting-info {
+      text-align: center;
+    }
+
+    .meeting-info h2 {
+      color: #ffd700;
+      margin-bottom: 10px;
+    }
+
+    .meeting-code {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 18px;
+      border: 1px solid #ffd700;
+      border-radius: 10px;
+      color: #ffd700;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .status {
+      margin-top: 15px;
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: #16a085;
+      font-size: 13px;
+    }
+
+    .participants {
+      margin-top: 20px;
+    }
+
+    .participants h3 {
+      color: #ffd700;
+      margin-bottom: 12px;
+    }
+
+    .participant {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0,0,0,0.25);
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #ffd700;
+      color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .participant-info strong {
+      display: block;
+    }
+
+    .participant-info span {
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .mic {
+      background: #16a085;
+      color: white;
+    }
+
+    .muted {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .leave {
+      background: #b71c1c;
+      color: white;
+    }
+
+    .message {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      text-align: center;
+      display: none;
+    }
+
+    audio {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .controls button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-
-    <div class="logo">
-        IKDA LIVE
-    </div>
-
-    <div class="live">
-        ● LIVE
-    </div>
-
+  <h1>IKDA LIVE</h1>
+  <p>Igala Kingdom Descendants Association</p>
 </header>
 
 
 <div class="container">
 
-    <div class="meeting-title">
+  <div class="card meeting-info">
 
-        <h1>IKDA General Live Meeting</h1>
+    <h2>Live Audio Meeting</h2>
 
-        <p>
-            Igala Kingdom Descendant Association
-        </p>
+    <p id="welcomeText">
+      Connecting to meeting...
+    </p>
+
+    <div class="meeting-code" id="meetingCode">
+      ------
+    </div>
+
+    <br>
+
+    <span class="status" id="connectionStatus">
+      Connecting...
+    </span>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="participants">
+
+      <h3>Participants</h3>
+
+      <div id="participantsList">
+
+        <div class="participant">
+
+          <div class="avatar" id="myAvatar">
+            ME
+          </div>
+
+          <div class="participant-info">
+
+            <strong id="myName">
+              You
+            </strong>
+
+            <span id="myStatus">
+              Connecting microphone...
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
-
-    <!-- STATS -->
-
-    <div class="stats">
-
-        <div class="stat">
-            <strong id="participantCount">527</strong>
-            Participants
-        </div>
-
-        <div class="stat">
-            <strong>4</strong>
-            Speakers
-        </div>
-
-        <div class="stat">
-            <strong>2,000+</strong>
-            Capacity
-        </div>
-
-    </div>
-
-
-    <!-- SPEAKERS -->
-
-    <h2 class="section-title">
-        🎙 Speakers
-    </h2>
-
-    <div class="stage">
-
-        <div class="speaker">
-
-            <div class="avatar">
-                JY
-            </div>
-
-            <h3>
-                Dr. Pst. Joshua Yahaya
-            </h3>
-
-            <p class="speaking">
-                🎙 Speaking
-            </p>
-
-            <small>
-                Founder / President
-            </small>
-
-        </div>
-
-
-        <div class="speaker">
-
-            <div class="avatar">
-                IH
-            </div>
-
-            <h3>
-                IKDA Host
-            </h3>
-
-            <p class="speaking">
-                🎙 Host
-            </p>
-
-        </div>
-
-
-        <div class="speaker">
-
-            <div class="avatar">
-                JS
-            </div>
-
-            <h3>
-                John Samuel
-            </h3>
-
-            <p class="speaking">
-                🎙 Speaking
-            </p>
-
-        </div>
-
-
-        <div class="speaker">
-
-            <div class="avatar">
-                DO
-            </div>
-
-            <h3>
-                David Ojo
-            </h3>
-
-            <p class="speaking">
-                🎙 Speaking
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- LISTENERS -->
-
-    <h2 class="section-title">
-        🎧 Listeners
-    </h2>
-
-    <div class="listener-box">
-
-        <div class="big-number">
-            523
-        </div>
-
-        <p>
-            People currently listening
-        </p>
-
-    </div>
-
-
-    <!-- CHAT -->
-
-    <h2 class="section-title">
-        💬 Meeting Chat
-    </h2>
-
-    <div class="chat-box">
-
-        <div class="messages" id="messages">
-
-            <div class="message">
-                <strong>IKDA Host:</strong>
-                Welcome everyone to the IKDA General Meeting.
-            </div>
-
-            <div class="message">
-                <strong>John Samuel:</strong>
-                Greetings to everyone.
-            </div>
-
-        </div>
-
-
-        <div class="chat-input">
-
-            <input
-                id="chatInput"
-                type="text"
-                placeholder="Write a message..."
-                onkeydown="handleChatKey(event)"
-            >
-
-            <button
-                class="send"
-                onclick="sendMessage()"
-            >
-                Send
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- CONTROLS -->
 
     <div class="controls">
 
-        <button
-            class="control"
-            onclick="toggleMicrophone()"
-            id="micButton"
-        >
-            🎙 Microphone
-        </button>
+      <button
+        class="mic"
+        id="micButton"
+        onclick="toggleMicrophone()">
+        🎤 Mute Microphone
+      </button>
 
-
-        <button
-            class="control"
-            onclick="requestToSpeak()"
-            id="requestButton"
-        >
-            🎙 Request to Speak
-        </button>
-
-
-        <button
-            class="control"
-            onclick="openParticipants()"
-        >
-            👥 Participants
-        </button>
-
-
-        <button
-            class="control"
-            onclick="showNotice('Audio settings will be available after Supabase/RTC connection.')"
-        >
-            🔊 Audio Settings
-        </button>
-
-
-        <button
-            class="control leave"
-            onclick="leaveMeeting()"
-        >
-            🚪 Leave Meeting
-        </button>
+      <button
+        class="leave"
+        onclick="leaveMeeting()">
+        🚪 Leave Meeting
+      </button>
 
     </div>
 
-</div>
 
-
-<!-- PARTICIPANTS POPUP -->
-
-<div
-    class="overlay"
-    id="participantOverlay"
-    onclick="closeOverlayOutside(event)"
->
-
-    <div class="participant-panel">
-
-        <div class="panel-header">
-
-            <h2>
-                👥 Participants
-            </h2>
-
-            <button
-                class="close"
-                onclick="closeParticipants()"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <!-- SEARCH -->
-
-        <input
-            id="participantSearch"
-            type="text"
-            placeholder="Search participants..."
-            onkeyup="searchParticipants()"
-            style="
-            width:100%;
-            padding:12px;
-            margin-bottom:15px;
-            border-radius:8px;
-            border:1px solid #315847;
-            background:#071e16;
-            color:white;
-            "
-        >
-
-
-        <div id="participantList">
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        JY
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Dr. Pst. Joshua Yahaya
-                        </strong>
-
-                        <div class="status speaking">
-                            🎙 Speaking • Founder / President
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <button>
-                    Speaker
-                </button>
-
-            </div>
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        IH
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            IKDA Host
-                        </strong>
-
-                        <div class="status speaking">
-                            🎙 Host
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <button>
-                    Host
-                </button>
-
-            </div>
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        JS
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            John Samuel
-                        </strong>
-
-                        <div class="status speaking">
-                            🎙 Speaking
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <button>
-                    Speaker
-                </button>
-
-            </div>
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        DO
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            David Ojo
-                        </strong>
-
-                        <div class="status speaking">
-                            🎙 Speaking
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <button>
-                    Speaker
-                </button>
-
-            </div>
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        AM
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Abraham Mora
-                        </strong>
-
-                        <div class="status">
-                            🎧 Listening
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <button>
-                    Listener
-                </button>
-
-            </div>
-
-
-            <div class="participant">
-
-                <div class="participant-left">
-
-                    <div class="small-avatar">
-                        AO
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Abel Oche
-                        </strong>
-
-                        <div class="status">
-                            🎧 Listening
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <button>
-                    Listener
-                </button>
-
-            </div>
-
-
-        </div>
-
+    <div class="message" id="message">
     </div>
 
+  </div>
+
 </div>
 
 
-<!-- NOTICE -->
+<!-- Remote audio players will be added here -->
 
-<div
-    class="notice"
-    id="notice"
->
-</div>
+<div id="audioContainer"></div>
 
 
 <script>
 
-/* =========================
-   PARTICIPANTS
-========================= */
+  /*
+  =====================================================
+  GET MEETING INFORMATION
+  =====================================================
+  */
 
-function openParticipants() {
+  const params =
+    new URLSearchParams(window.location.search);
 
-    document
-        .getElementById("participantOverlay")
-        .classList.add("show");
-
-    document.body.style.overflow = "hidden";
-}
-
-
-function closeParticipants() {
-
-    document
-        .getElementById("participantOverlay")
-        .classList.remove("show");
-
-    document.body.style.overflow = "auto";
-}
+  const meetingCode =
+    params.get("room") ||
+    localStorage.getItem("ikdaMeetingCode") ||
+    "IKDA";
 
 
-function closeOverlayOutside(event) {
+  const participantName =
+    localStorage.getItem("ikdaParticipantName") ||
+    "Participant";
 
-    if (
-        event.target.id === "participantOverlay"
-    ) {
 
-        closeParticipants();
+  /*
+  =====================================================
+  DISPLAY INFORMATION
+  =====================================================
+  */
+
+  document.getElementById("meetingCode")
+    .textContent =
+    meetingCode;
+
+
+  document.getElementById("myName")
+    .textContent =
+    participantName;
+
+
+  document.getElementById("welcomeText")
+    .textContent =
+    "Welcome, " + participantName;
+
+
+  /*
+  =====================================================
+  AVATAR
+  =====================================================
+  */
+
+  const firstLetter =
+    participantName
+      .charAt(0)
+      .toUpperCase();
+
+
+  document.getElementById("myAvatar")
+    .textContent =
+    firstLetter;
+
+
+  /*
+  =====================================================
+  WEBRTC VARIABLES
+  =====================================================
+  */
+
+  let localStream = null;
+
+  let microphoneEnabled = false;
+
+  let peerConnections = {};
+
+
+  /*
+  =====================================================
+  WEBRTC CONFIGURATION
+  =====================================================
+  */
+
+  const rtcConfiguration = {
+
+    iceServers: [
+
+      {
+        urls: "stun:stun.l.google.com:19302"
+      },
+
+      {
+        urls: "stun:stun1.l.google.com:19302"
+      }
+
+    ]
+
+  };
+
+
+  /*
+  =====================================================
+  GET MICROPHONE
+  =====================================================
+  */
+
+  async function startMicrophone() {
+
+    try {
+
+      localStream =
+        await navigator.mediaDevices.getUserMedia({
+
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          },
+
+          video: false
+
+        });
+
+
+      microphoneEnabled = true;
+
+
+      document.getElementById("myStatus")
+        .textContent =
+        "Microphone connected";
+
+
+      document.getElementById("connectionStatus")
+        .textContent =
+        "Connected";
+
+
+      showMessage(
+        "Microphone connected successfully."
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "Microphone error:",
+        error
+      );
+
+
+      document.getElementById("myStatus")
+        .textContent =
+        "Microphone unavailable";
+
+
+      showMessage(
+        "Please allow microphone permission in your browser."
+      );
 
     }
 
-}
+  }
 
 
-/* =========================
-   REQUEST TO SPEAK
-========================= */
+  /*
+  =====================================================
+  MUTE / UNMUTE
+  =====================================================
+  */
 
-function requestToSpeak() {
+  function toggleMicrophone() {
 
-    const button =
-        document.getElementById("requestButton");
+    if (!localStream) {
 
+      startMicrophone();
 
-    if (
-        button.dataset.requested === "true"
-    ) {
+      return;
 
-        showNotice(
-            "Your request is already pending."
-        );
-
-        return;
     }
 
 
-    button.dataset.requested = "true";
+    const tracks =
+      localStream.getAudioTracks();
 
-    button.innerHTML =
-        "⏳ Request Pending";
 
-    button.style.opacity = "0.65";
+    if (tracks.length === 0) {
 
-    showNotice(
-        "Your request to speak has been sent to the host."
+      return;
+
+    }
+
+
+    microphoneEnabled =
+      !microphoneEnabled;
+
+
+    tracks.forEach(
+      track => {
+
+        track.enabled =
+          microphoneEnabled;
+
+      }
     );
 
-}
-
-
-/* =========================
-   MICROPHONE
-========================= */
-
-let microphoneOn = false;
-
-
-async function toggleMicrophone() {
 
     const button =
-        document.getElementById("micButton");
+      document.getElementById("micButton");
 
 
-    if (!microphoneOn) {
+    if (microphoneEnabled) {
 
-        try {
+      button.textContent =
+        "🎤 Mute Microphone";
 
-            const stream =
-                await navigator.mediaDevices.getUserMedia({
-                    audio: true
-                });
+      button.className =
+        "mic";
 
+      document.getElementById("myStatus")
+        .textContent =
+        "Microphone on";
 
-            microphoneOn = true;
+    } else {
 
-            button.innerHTML =
-                "🔴 Microphone ON";
+      button.textContent =
+        "🔇 Unmute Microphone";
 
+      button.className =
+        "muted";
 
-            window.ikdaAudioStream =
-                stream;
-
-
-            showNotice(
-                "Microphone permission granted."
-            );
-
-        }
-
-        catch(error) {
-
-            showNotice(
-                "Microphone permission was not granted."
-            );
-
-        }
+      document.getElementById("myStatus")
+        .textContent =
+        "Microphone muted";
 
     }
 
-    else {
-
-        if (window.ikdaAudioStream) {
-
-            window.ikdaAudioStream
-                .getTracks()
-                .forEach(track => track.stop());
-
-        }
+  }
 
 
-        microphoneOn = false;
+  /*
+  =====================================================
+  CREATE PEER CONNECTION
+  =====================================================
+  */
 
-        button.innerHTML =
-            "🎙 Microphone";
+  function createPeerConnection(participantId) {
+
+    const peerConnection =
+      new RTCPeerConnection(
+        rtcConfiguration
+      );
 
 
-        showNotice(
-            "Microphone turned off."
+    if (localStream) {
+
+      localStream
+        .getTracks()
+        .forEach(
+          track => {
+
+            peerConnection.addTrack(
+              track,
+              localStream
+            );
+
+          }
         );
 
     }
 
-}
+
+    /*
+    RECEIVE REMOTE AUDIO
+    */
+
+    peerConnection.ontrack =
+      function(event) {
+
+        let audio =
+          document.getElementById(
+            "audio-" + participantId
+          );
 
 
-/* =========================
-   CHAT
-========================= */
+        if (!audio) {
 
-function sendMessage() {
+          audio =
+            document.createElement(
+              "audio"
+            );
 
-    const input =
-        document.getElementById("chatInput");
+          audio.id =
+            "audio-" + participantId;
 
+          audio.autoplay = true;
 
-    const message =
-        input.value.trim();
+          audio.controls = false;
 
-
-    if (!message) {
-
-        return;
-
-    }
-
-
-    const messages =
-        document.getElementById("messages");
-
-
-    const newMessage =
-        document.createElement("div");
-
-
-    newMessage.className =
-        "message";
-
-
-    newMessage.innerHTML =
-        "<strong>You:</strong> " +
-        escapeHTML(message);
-
-
-    messages.appendChild(newMessage);
-
-
-    messages.scrollTop =
-        messages.scrollHeight;
-
-
-    input.value = "";
-
-}
-
-
-function handleChatKey(event) {
-
-    if (event.key === "Enter") {
-
-        sendMessage();
-
-    }
-
-}
-
-
-function escapeHTML(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent =
-        text;
-
-    return div.innerHTML;
-
-}
-
-
-/* =========================
-   SEARCH PARTICIPANTS
-========================= */
-
-function searchParticipants() {
-
-    const search =
-        document
-        .getElementById("participantSearch")
-        .value
-        .toLowerCase();
-
-
-    const participants =
-        document.querySelectorAll(
-            "#participantList .participant"
-        );
-
-
-    participants.forEach(
-        participant => {
-
-            const name =
-                participant
-                .querySelector("strong")
-                .textContent
-                .toLowerCase();
-
-
-            if (
-                name.includes(search)
-            ) {
-
-                participant.style.display =
-                    "flex";
-
-            }
-
-            else {
-
-                participant.style.display =
-                    "none";
-
-            }
+          document
+            .getElementById(
+              "audioContainer"
+            )
+            .appendChild(audio);
 
         }
+
+
+        audio.srcObject =
+          event.streams[0];
+
+      };
+
+
+    /*
+    ICE CANDIDATES
+    */
+
+    peerConnection.onicecandidate =
+      function(event) {
+
+        if (event.candidate) {
+
+          /*
+          Supabase signaling will send
+          this candidate to the other participant.
+          */
+
+          console.log(
+            "ICE candidate:",
+            event.candidate
+          );
+
+        }
+
+      };
+
+
+    peerConnections[
+      participantId
+    ] =
+      peerConnection;
+
+
+    return peerConnection;
+
+  }
+
+
+  /*
+  =====================================================
+  LEAVE MEETING
+  =====================================================
+  */
+
+  function leaveMeeting() {
+
+    if (localStream) {
+
+      localStream
+        .getTracks()
+        .forEach(
+          track =>
+            track.stop()
+        );
+
+    }
+
+
+    Object.values(
+      peerConnections
+    ).forEach(
+      connection =>
+        connection.close()
     );
 
-}
+
+    peerConnections = {};
 
 
-/* =========================
-   NOTICE
-========================= */
+    window.location.href =
+      "index.html";
 
-function showNotice(message) {
-
-    const notice =
-        document.getElementById("notice");
+  }
 
 
-    notice.textContent =
-        message;
+  /*
+  =====================================================
+  MESSAGE
+  =====================================================
+  */
 
+  function showMessage(message) {
 
-    notice.classList.add("show");
+    const element =
+      document.getElementById(
+        "message"
+      );
+
+    element.textContent =
+      message;
+
+    element.style.display =
+      "block";
 
 
     setTimeout(
-        () => {
+      function() {
 
-            notice.classList.remove("show");
+        element.style.display =
+          "none";
 
-        },
-        3000
+      },
+      4000
     );
 
-}
+  }
 
 
-/* =========================
-   LEAVE MEETING
-========================= */
+  /*
+  =====================================================
+  START
+  =====================================================
+  */
 
-function leaveMeeting() {
-
-    const confirmed =
-        confirm(
-            "Are you sure you want to leave the meeting?"
-        );
-
-
-    if (confirmed) {
-
-        window.location.href =
-            "index.html";
-
-    }
-
-}
-
-
-/* =========================
-   ESC KEY
-========================= */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key === "Escape"
-        ) {
-
-            closeParticipants();
-
-        }
-
-    }
-);
+  startMicrophone();
 
 </script>
 
