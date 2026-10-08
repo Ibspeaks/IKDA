@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>IKDA Live - Audio Meeting</title>
+  <title>IKDA Live</title>
 
   <style>
     * {
@@ -15,197 +15,100 @@
     }
 
     body {
+      min-height: 100vh;
       background: linear-gradient(135deg, #061b14, #0b3d2e);
       color: white;
-      min-height: 100vh;
     }
 
     header {
-      background: rgba(0,0,0,0.35);
-      padding: 18px;
       text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding: 25px 15px;
+      background: rgba(0,0,0,0.3);
     }
 
     header h1 {
-      font-size: 30px;
       color: #ffd700;
-      margin-bottom: 5px;
+      font-size: 32px;
     }
 
     header p {
+      margin-top: 6px;
       color: #ddd;
-      font-size: 14px;
     }
 
     .container {
-      width: 94%;
-      max-width: 850px;
-      margin: 25px auto;
+      width: 92%;
+      max-width: 600px;
+      margin: 35px auto;
     }
 
     .card {
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 25px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
     .card h2 {
+      text-align: center;
       color: #ffd700;
-      margin-bottom: 18px;
+      margin-bottom: 25px;
     }
 
     input {
       width: 100%;
-      padding: 14px;
-      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
       border: none;
-      margin-bottom: 12px;
+      border-radius: 10px;
       font-size: 16px;
       outline: none;
     }
 
     button {
+      width: 100%;
+      padding: 15px;
       border: none;
-      padding: 13px 18px;
       border-radius: 10px;
+      margin-top: 8px;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
-      font-weight: bold;
-      margin: 5px;
-      transition: 0.2s;
     }
 
-    button:hover {
-      transform: translateY(-2px);
-    }
-
-    .primary {
+    .join {
       background: #ffd700;
       color: #111;
     }
 
-    .green {
+    .create {
       background: #16a085;
       color: white;
-    }
-
-    .red {
-      background: #e74c3c;
-      color: white;
-    }
-
-    .dark {
-      background: #222;
-      color: white;
-    }
-
-    .meeting-box {
-      display: none;
-    }
-
-    .meeting-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .status {
-      display: inline-block;
-      background: #16a085;
-      padding: 8px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-    }
-
-    .participant-code {
-      background: rgba(255,215,0,0.15);
-      border: 1px solid #ffd700;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-
-    .participant-code strong {
-      color: #ffd700;
-      font-size: 20px;
-    }
-
-    .participants {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      margin-top: 15px;
-    }
-
-    .participant {
-      background: rgba(0,0,0,0.25);
-      border-radius: 12px;
-      padding: 15px;
-    }
-
-    .participant .icon {
-      width: 45px;
-      height: 45px;
-      background: #ffd700;
-      color: #111;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 25px;
-    }
-
-    .controls button {
-      min-width: 120px;
     }
 
     .message {
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 8px;
       display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
       background: rgba(255,255,255,0.1);
+      text-align: center;
+    }
+
+    .info {
+      text-align: center;
+      margin-top: 25px;
+      color: #bbb;
+      font-size: 14px;
+      line-height: 1.6;
     }
 
     footer {
       text-align: center;
+      color: #999;
       padding: 25px;
-      color: #aaa;
       font-size: 13px;
-    }
-
-    @media(max-width:600px) {
-      header h1 {
-        font-size: 24px;
-      }
-
-      .card {
-        padding: 17px;
-      }
-
-      button {
-        width: 100%;
-        margin: 5px 0;
-      }
-
-      .meeting-header {
-        display: block;
-      }
     }
   </style>
 </head>
@@ -219,124 +122,52 @@
 
 <div class="container">
 
-  <!-- LOGIN / JOIN AREA -->
-  <div class="card" id="loginBox">
+  <div class="card">
 
-    <h2>Join IKDA Live Meeting</h2>
+    <h2>Join Live Audio Meeting</h2>
 
     <input
       type="text"
       id="participantName"
       placeholder="Enter your full name"
+      autocomplete="name"
     >
 
     <input
       type="text"
       id="meetingCode"
       placeholder="Enter meeting code"
+      autocomplete="off"
     >
 
-    <button class="primary" onclick="joinMeeting()">
-      Join Meeting
+    <button
+      class="join"
+      onclick="joinMeeting()">
+      🎙️ Join Meeting
     </button>
 
-    <button class="green" onclick="createMeeting()">
-      Create New Meeting
+    <button
+      class="create"
+      onclick="createMeeting()">
+      ➕ Create New Meeting
     </button>
 
-    <div class="message" id="loginMessage"></div>
-
-  </div>
-
-
-  <!-- MEETING AREA -->
-  <div class="card meeting-box" id="meetingBox">
-
-    <div class="meeting-header">
-
-      <div>
-        <h2 id="meetingTitle">
-          IKDA Live Meeting
-        </h2>
-
-        <p id="meetingInfo">
-          Audio meeting room
-        </p>
-      </div>
-
-      <span class="status" id="meetingStatus">
-        Connected
-      </span>
-
+    <div
+      class="message"
+      id="loginMessage">
     </div>
 
-
-    <div class="participant-code">
-
-      <p>Your participant code:</p>
-
-      <strong id="myParticipantCode">
-        ------
-      </strong>
-
+    <div class="info">
+      Enter your name and meeting code to join an
+      IKDA Live audio meeting.
+      <br><br>
+      Your microphone will be requested when you
+      enter the meeting.
     </div>
-
-
-    <h2>Participants</h2>
-
-    <div class="participants" id="participantsList">
-
-      <div class="participant">
-
-        <div class="icon">
-          YOU
-        </div>
-
-        <strong id="myNameDisplay">
-          Participant
-        </strong>
-
-        <p>Connected</p>
-
-      </div>
-
-    </div>
-
-
-    <!-- CONTROLS -->
-
-    <div class="controls">
-
-      <button
-        class="green"
-        id="micButton"
-        onclick="toggleMicrophone()"
-      >
-        🎤 Mute
-      </button>
-
-      <button
-        class="dark"
-        onclick="requestMicrophone()"
-      >
-        🎙 Test Microphone
-      </button>
-
-      <button
-        class="red"
-        onclick="leaveMeeting()"
-      >
-        🚪 Leave Meeting
-      </button>
-
-    </div>
-
-    <div class="message" id="meetingMessage"></div>
 
   </div>
 
 </div>
-
 
 <footer>
   © 2026 IKDA Live — Igala Kingdom Descendants Association
@@ -345,132 +176,73 @@
 
 <script>
 
-  /*
-   =====================================================
-   SUPABASE CONFIGURATION
-   =====================================================
-  */
+  // ============================================
+  // SHOW MESSAGE
+  // ============================================
 
-  const SUPABASE_URL =
-    "https://dvskuudjamineqbvvjld.supabase.co";
+  function showMessage(message) {
 
-  const SUPABASE_ANON_KEY =
-    "sb_publishable_r8v8E93qy_DpvNhL9pvyKQ_HZBLaBm5";
+    const box =
+      document.getElementById("loginMessage");
 
+    box.innerText = message;
 
-  /*
-   =====================================================
-   APPLICATION VARIABLES
-   =====================================================
-  */
-
-  let currentParticipant = null;
-
-  let currentMeeting = null;
-
-  let microphoneStream = null;
-
-  let microphoneEnabled = false;
-
-
-  /*
-   =====================================================
-   GENERATE PARTICIPANT CODE
-   =====================================================
-  */
-
-  function generateParticipantCode() {
-
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-    let code = "";
-
-    for (let i = 0; i < 6; i++) {
-
-      code += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
-
-    }
-
-    return code;
-  }
-
-
-  /*
-   =====================================================
-   GENERATE MEETING CODE
-   =====================================================
-  */
-
-  function generateMeetingCode() {
-
-    const characters =
-      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-    let code = "";
-
-    for (let i = 0; i < 6; i++) {
-
-      code += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
-
-    }
-
-    return code;
+    box.style.display = "block";
 
   }
 
 
-  /*
-   =====================================================
-   SHOW MESSAGE
-   =====================================================
-  */
-
-  function showMessage(elementId, message) {
-
-    const element =
-      document.getElementById(elementId);
-
-    element.innerText = message;
-
-    element.style.display = "block";
-
-  }
-
-
-  /*
-   =====================================================
-   CREATE MEETING
-   =====================================================
-  */
+  // ============================================
+  // CREATE NEW MEETING
+  // ============================================
 
   function createMeeting() {
 
     const name =
-      document.getElementById("participantName")
-      .value
-      .trim();
+      document
+        .getElementById("participantName")
+        .value
+        .trim();
+
 
     if (!name) {
 
       showMessage(
-        "loginMessage",
         "Please enter your full name first."
       );
 
       return;
+
     }
 
 
-    const meetingCode =
-      generateMeetingCode();
+    const characters =
+      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 
-    document.getElementById("meetingCode").value =
+    let meetingCode = "";
+
+
+    for (
+      let i = 0;
+      i < 6;
+      i++
+    ) {
+
+      meetingCode +=
+        characters.charAt(
+          Math.floor(
+            Math.random() *
+            characters.length
+          )
+        );
+
+    }
+
+
+    document
+      .getElementById("meetingCode")
+      .value =
       meetingCode;
 
 
@@ -479,30 +251,30 @@
   }
 
 
-  /*
-   =====================================================
-   JOIN MEETING
-   =====================================================
-  */
+  // ============================================
+  // JOIN MEETING
+  // ============================================
 
   function joinMeeting() {
 
     const name =
-      document.getElementById("participantName")
-      .value
-      .trim();
+      document
+        .getElementById("participantName")
+        .value
+        .trim();
+
 
     const meetingCode =
-      document.getElementById("meetingCode")
-      .value
-      .trim()
-      .toUpperCase();
+      document
+        .getElementById("meetingCode")
+        .value
+        .trim()
+        .toUpperCase();
 
 
     if (!name) {
 
       showMessage(
-        "loginMessage",
         "Please enter your full name."
       );
 
@@ -514,7 +286,6 @@
     if (!meetingCode) {
 
       showMessage(
-        "loginMessage",
         "Please enter a meeting code."
       );
 
@@ -523,233 +294,28 @@
     }
 
 
-    currentParticipant = {
-
-      name: name,
-
-      code: generateParticipantCode()
-
-    };
-
-
-    currentMeeting = meetingCode;
-
-
-    document.getElementById(
-      "myParticipantCode"
-    ).innerText =
-      currentParticipant.code;
-
-
-    document.getElementById(
-      "myNameDisplay"
-    ).innerText =
-      currentParticipant.name;
-
-
-    document.getElementById(
-      "meetingTitle"
-    ).innerText =
-      "IKDA Live - " + meetingCode;
-
-
-    document.getElementById(
-      "meetingInfo"
-    ).innerText =
-      "Live audio meeting room";
-
-
-    document.getElementById(
-      "loginBox"
-    ).style.display =
-      "none";
-
-
-    document.getElementById(
-      "meetingBox"
-    ).style.display =
-      "block";
-
-
-    showMessage(
-      "meetingMessage",
-      "You have joined the meeting successfully."
+    // Save participant name
+    localStorage.setItem(
+      "ikdaParticipantName",
+      name
     );
 
-  }
+
+    // Save meeting code
+    localStorage.setItem(
+      "ikdaMeetingCode",
+      meetingCode
+    );
 
 
-  /*
-   =====================================================
-   MICROPHONE ACCESS
-   =====================================================
-  */
-
-  async function requestMicrophone() {
-
-    try {
-
-      microphoneStream =
-        await navigator.mediaDevices.getUserMedia({
-          audio: true
-        });
-
-
-      microphoneEnabled = true;
-
-
-      document.getElementById(
-        "micButton"
-      ).innerText =
-        "🎤 Mute";
-
-
-      showMessage(
-        "meetingMessage",
-        "Microphone connected successfully."
+    // Open meeting room
+    window.location.href =
+      "meeting.html?room=" +
+      encodeURIComponent(
+        meetingCode
       );
 
-
-    } catch (error) {
-
-      console.error(error);
-
-
-      showMessage(
-        "meetingMessage",
-        "Microphone permission was denied or unavailable."
-      );
-
-    }
-
   }
-
-
-  /*
-   =====================================================
-   MUTE / UNMUTE
-   =====================================================
-  */
-
-  function toggleMicrophone() {
-
-    if (!microphoneStream) {
-
-      requestMicrophone();
-
-      return;
-
-    }
-
-
-    const audioTracks =
-      microphoneStream.getAudioTracks();
-
-
-    if (audioTracks.length === 0) {
-
-      return;
-
-    }
-
-
-    microphoneEnabled =
-      !microphoneEnabled;
-
-
-    audioTracks.forEach(
-      track => {
-
-        track.enabled =
-          microphoneEnabled;
-
-      }
-    );
-
-
-    document.getElementById(
-      "micButton"
-    ).innerText =
-      microphoneEnabled
-        ? "🎤 Mute"
-        : "🔇 Unmute";
-
-  }
-
-
-  /*
-   =====================================================
-   LEAVE MEETING
-   =====================================================
-  */
-
-  function leaveMeeting() {
-
-    if (microphoneStream) {
-
-      microphoneStream
-        .getTracks()
-        .forEach(
-          track => track.stop()
-        );
-
-      microphoneStream = null;
-
-    }
-
-
-    currentParticipant = null;
-
-    currentMeeting = null;
-
-
-    document.getElementById(
-      "meetingBox"
-    ).style.display =
-      "none";
-
-
-    document.getElementById(
-      "loginBox"
-    ).style.display =
-      "block";
-
-
-    document.getElementById(
-      "participantName"
-    ).value =
-      "";
-
-
-    document.getElementById(
-      "meetingCode"
-    ).value =
-      "";
-
-
-    showMessage(
-      "loginMessage",
-      "You have left the meeting."
-    );
-
-  }
-
-
-  /*
-   =====================================================
-   CHECK BROWSER AUDIO SUPPORT
-   =====================================================
-  */
-
-  if (!navigator.mediaDevices ||
-      !navigator.mediaDevices.getUserMedia) {
-
-    console.warn(
-      "This browser does not support microphone access."
-    );
-
-  }
-
 
 </script>
 
