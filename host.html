@@ -1,1561 +1,1028 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKDA LIVE - Host Control Center</title>
 
-  <title>IKDA LIVE - Host Dashboard</title>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background: #061a13;
+    color: white;
+}
 
-    body {
-      min-height: 100vh;
-      background: #06140f;
-      color: white;
-    }
+header {
+    background: #0b2d21;
+    border-bottom: 2px solid #d4af37;
+    padding: 15px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    /* HEADER */
+.logo {
+    color: #d4af37;
+    font-size: 22px;
+    font-weight: bold;
+}
 
-    header {
-      height: 70px;
-      background: #0a1d16;
-      border-bottom: 1px solid #28473b;
+.badge {
+    background: #d62828;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 22px;
+}
 
-      padding: 0 25px;
+h1 {
+    color: #d4af37;
+    margin-bottom: 7px;
+}
 
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+.subtitle {
+    color: #a9bdb5;
+    margin-bottom: 25px;
+}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
 
-    .logo {
-      width: 45px;
-      height: 45px;
+.stat {
+    background: #0c3024;
+    border: 1px solid #194c3a;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+}
 
-      border-radius: 50%;
+.stat strong {
+    display: block;
+    color: #d4af37;
+    font-size: 27px;
+    margin-bottom: 5px;
+}
 
-      background:
-        linear-gradient(
-          135deg,
-          #d4af37,
-          #987718
-        );
+.section {
+    background: #0c3024;
+    border: 1px solid #194c3a;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
 
-      color: #06140f;
+.section h2 {
+    color: #d4af37;
+    margin-bottom: 15px;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.request,
+.speaker {
+    background: #123d2e;
+    border: 1px solid #245b47;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
 
-      font-size: 13px;
-      font-weight: bold;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
 
-    .brand h1 {
-      color: #d4af37;
-      font-size: 20px;
-    }
+.person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-    .brand span {
-      display: block;
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #d4af37;
+    color: #061a13;
 
-      color: #7f9289;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-      font-size: 11px;
+    font-weight: bold;
+}
 
-      margin-top: 3px;
-    }
+.name {
+    font-weight: bold;
+}
 
-    .host-badge {
-      padding: 7px 12px;
+.status {
+    color: #9db1a8;
+    font-size: 12px;
+    margin-top: 4px;
+}
 
-      border-radius: 20px;
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
 
-      background:
-        rgba(212,175,55,.12);
+button {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
 
-      border:
-        1px solid
-        rgba(212,175,55,.3);
+.approve {
+    background: #39a96b;
+    color: white;
+}
 
-      color: #d4af37;
+.reject {
+    background: #a51d1d;
+    color: white;
+}
 
-      font-size: 12px;
-      font-weight: bold;
-    }
+.mute {
+    background: #d4af37;
+    color: #061a13;
+}
 
-    /* LAYOUT */
+.remove {
+    background: #7c1d1d;
+    color: white;
+}
 
-    .layout {
-      max-width: 1400px;
-      margin: auto;
+.control-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
 
-      padding: 25px;
+.control {
+    background: #123d2e;
+    border: 1px solid #315847;
+    color: white;
+    padding: 15px;
+}
 
-      display: grid;
+.control:hover {
+    background: #18523d;
+}
 
-      grid-template-columns:
-        1fr 350px;
+.danger {
+    background: #a51d1d;
+    border-color: #a51d1d;
+}
 
-      gap: 22px;
-    }
+.warning {
+    background: #8a6512;
+}
 
-    /* TITLE */
+.success {
+    background: #17633f;
+}
 
-    .page-title {
-      margin-bottom: 20px;
-    }
+.empty {
+    color: #9db1a8;
+    text-align: center;
+    padding: 20px;
+}
 
-    .page-title h2 {
-      font-size: 25px;
-      margin-bottom: 6px;
-    }
+.notice {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
 
-    .page-title p {
-      color: #82958c;
-      font-size: 13px;
-    }
+    background: #d4af37;
+    color: #061a13;
 
-    /* STATS */
+    padding: 13px 20px;
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    display: none;
+    z-index: 9999;
+}
+
+.notice.show {
+    display: block;
+}
+
+@media(max-width:750px) {
 
     .stats {
-      display: grid;
-
-      grid-template-columns:
-        repeat(4, 1fr);
-
-      gap: 12px;
-
-      margin-bottom: 20px;
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .stat {
-      background: #0c211a;
-
-      border:
-        1px solid
-        rgba(212,175,55,.18);
-
-      border-radius: 13px;
-
-      padding: 18px;
-    }
-
-    .stat-number {
-      color: #d4af37;
-
-      font-size: 25px;
-
-      font-weight: bold;
-
-      margin-bottom: 6px;
-    }
-
-    .stat-label {
-      color: #81948b;
-
-      font-size: 11px;
-    }
-
-    /* PANELS */
-
-    .panel {
-      background: #0c211a;
-
-      border:
-        1px solid
-        rgba(212,175,55,.18);
-
-      border-radius: 15px;
-
-      padding: 20px;
-
-      margin-bottom: 20px;
-    }
-
-    .panel-header {
-      display: flex;
-
-      justify-content: space-between;
-
-      align-items: center;
-
-      margin-bottom: 17px;
-    }
-
-    .panel-header h3 {
-      font-size: 17px;
-    }
-
-    .count {
-      min-width: 25px;
-      height: 25px;
-
-      border-radius: 50%;
-
-      background: #b82020;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 11px;
-      font-weight: bold;
-    }
-
-    /* REQUEST */
-
-    .request {
-      background: #071812;
-
-      border:
-        1px solid
-        #28473b;
-
-      border-radius: 11px;
-
-      padding: 13px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      gap: 10px;
-
-      margin-bottom: 10px;
-    }
-
-    .request:last-child {
-      margin-bottom: 0;
-    }
-
-    .person {
-      display: flex;
-
-      align-items: center;
-
-      gap: 10px;
-
-      min-width: 0;
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-
-      flex-shrink: 0;
-
-      border-radius: 50%;
-
-      background:
-        linear-gradient(
-          135deg,
-          #174c38,
-          #0c3023
-        );
-
-      border:
-        1px solid
-        rgba(212,175,55,.3);
-
-      color: #d4af37;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .person-info {
-      min-width: 0;
-    }
-
-    .person-info strong {
-      display: block;
-
-      font-size: 13px;
-
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .person-info span {
-      color: #71857c;
-
-      font-size: 10px;
-    }
-
-    .request-buttons {
-      display: flex;
-      gap: 5px;
-    }
-
-    .accept,
-    .reject {
-      border: none;
-
-      border-radius: 7px;
-
-      padding: 8px 10px;
-
-      font-size: 11px;
-
-      cursor: pointer;
-    }
-
-    .accept {
-      background: #245f42;
-      color: #a9efc5;
-    }
-
-    .reject {
-      background: #552828;
-      color: #ffabab;
-    }
-
-    /* SPEAKERS */
-
-    .speaker {
-      background: #071812;
-
-      border:
-        1px solid
-        #28473b;
-
-      border-radius: 11px;
-
-      padding: 13px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      margin-bottom: 10px;
-    }
-
-    .speaker:last-child {
-      margin-bottom: 0;
-    }
-
-    .speaker-left {
-      display: flex;
-
-      align-items: center;
-
-      gap: 10px;
-    }
-
-    .speaker-avatar {
-      width: 40px;
-      height: 40px;
-
-      border-radius: 50%;
-
-      background: #174c38;
-
-      color: #d4af37;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .speaker-info strong {
-      display: block;
-      font-size: 13px;
-    }
-
-    .speaker-info span {
-      color: #71e09a;
-      font-size: 10px;
-    }
-
-    .mute-btn {
-      background: #182c24;
-
-      color: #d5dfdb;
-
-      border: 1px solid #345246;
-
-      padding: 8px 10px;
-
-      border-radius: 7px;
-
-      cursor: pointer;
-
-      font-size: 11px;
-    }
-
-    .mute-btn:hover {
-      border-color: #d4af37;
-      color: #d4af37;
-    }
-
-    /* RIGHT PANEL */
-
-    .control-panel {
-      position: sticky;
-      top: 95px;
-    }
-
-    .meeting-status {
-      padding: 14px;
-
-      border-radius: 10px;
-
-      background:
-        rgba(55,180,100,.08);
-
-      border:
-        1px solid
-        rgba(55,180,100,.2);
-
-      margin-bottom: 18px;
-    }
-
-    .status-line {
-      display: flex;
-
-      align-items: center;
-
-      gap: 8px;
-
-      color: #71e09a;
-
-      font-size: 13px;
-
-      font-weight: bold;
-    }
-
-    .green-dot {
-      width: 8px;
-      height: 8px;
-
-      background: #49d67d;
-
-      border-radius: 50%;
-
-      box-shadow:
-        0 0 8px #49d67d;
-    }
-
-    .meeting-status p {
-      color: #71857c;
-
-      font-size: 11px;
-
-      margin-top: 7px;
-    }
-
-    /* CONTROL BUTTONS */
-
-    .control-btn {
-      width: 100%;
-
-      padding: 13px;
-
-      border-radius: 9px;
-
-      margin-bottom: 10px;
-
-      cursor: pointer;
-
-      font-size: 13px;
-
-      border: 1px solid #28473b;
-
-      background: #071812;
-
-      color: #d7e0dc;
-
-      text-align: left;
-    }
-
-    .control-btn:hover {
-      border-color: #d4af37;
-    }
-
-    .control-btn.danger {
-      color: #ff9b9b;
-
-      border-color:
-        rgba(220,70,70,.25);
-    }
-
-    .control-btn.gold {
-      color: #d4af37;
-
-      border-color:
-        rgba(212,175,55,.3);
-    }
-
-    .control-btn span {
-      float: right;
-    }
-
-    /* INFO */
-
-    .info {
-      margin-top: 20px;
-
-      border-top:
-        1px solid
-        rgba(255,255,255,.05);
-
-      padding-top: 17px;
-    }
-
-    .info-row {
-      display: flex;
-
-      justify-content: space-between;
-
-      padding: 9px 0;
-
-      font-size: 12px;
-    }
-
-    .info-row span:first-child {
-      color: #71857c;
-    }
-
-    .info-row span:last-child {
-      color: #dce5e1;
-    }
-
-    /* TOAST */
-
-    .toast {
-      position: fixed;
-
-      right: 20px;
-      bottom: 20px;
-
-      background: #173b2c;
-
-      border:
-        1px solid
-        rgba(212,175,55,.3);
-
-      color: #e5eee9;
-
-      padding: 13px 17px;
-
-      border-radius: 9px;
-
-      font-size: 12px;
-
-      opacity: 0;
-
-      transform:
-        translateY(20px);
-
-      pointer-events: none;
-
-      transition: .3s;
-
-      z-index: 100;
-    }
-
-    .toast.show {
-      opacity: 1;
-
-      transform:
-        translateY(0);
-    }
-
-    /* MOBILE */
-
-    @media(max-width: 900px) {
-
-      .layout {
+    .control-grid {
         grid-template-columns: 1fr;
-      }
-
-      .control-panel {
-        position: static;
-      }
-
-      .stats {
-        grid-template-columns:
-          repeat(2, 1fr);
-      }
-
     }
 
-    @media(max-width: 500px) {
-
-      header {
-        padding: 0 14px;
-      }
-
-      .layout {
-        padding: 17px 12px;
-      }
-
-      .brand span {
-        display: none;
-      }
-
-      .host-badge {
-        font-size: 10px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .request {
+    .request,
+    .speaker {
         align-items: flex-start;
         flex-direction: column;
-      }
-
-      .request-buttons {
-        width: 100%;
-      }
-
-      .accept,
-      .reject {
-        flex: 1;
-      }
-
     }
-  </style>
+
+    .actions {
+        width: 100%;
+    }
+
+    .actions button {
+        flex: 1;
+    }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
+<header>
 
-  <header>
-
-    <div class="brand">
-
-      <div class="logo">
-        IKDA
-      </div>
-
-      <div>
-        <h1>IKDA LIVE</h1>
-
-        <span>
-          Igala Kingdom Descendant Association
-        </span>
-      </div>
-
+    <div class="logo">
+        IKDA LIVE
     </div>
 
-    <div class="host-badge">
-      HOST DASHBOARD
+    <div class="badge">
+        HOST CONTROL
     </div>
 
-  </header>
+</header>
 
 
-  <!-- MAIN -->
+<div class="container">
 
-  <main class="layout">
+    <h1>Host Control Center</h1>
 
-    <section>
-
-      <div class="page-title">
-
-        <h2>
-          Meeting Control Center
-        </h2>
-
-        <p>
-          Manage speakers, requests and
-          participants in your live meeting.
-        </p>
-
-      </div>
+    <p class="subtitle">
+        Manage the IKDA General Live Meeting
+    </p>
 
 
-      <!-- STATS -->
+    <!-- STATS -->
 
-      <div class="stats">
+    <div class="stats">
 
         <div class="stat">
-
-          <div
-            class="stat-number"
-            id="participantCount">
-            527
-          </div>
-
-          <div class="stat-label">
+            <strong id="totalParticipants">527</strong>
             Participants
-          </div>
-
         </div>
 
+        <div class="stat">
+            <strong id="listeners">523</strong>
+            Listeners
+        </div>
 
         <div class="stat">
-
-          <div
-            class="stat-number"
-            id="speakerCount">
-            4
-          </div>
-
-          <div class="stat-label">
+            <strong id="speakers">4</strong>
             Speakers
-          </div>
-
         </div>
-
 
         <div class="stat">
-
-          <div class="stat-number">
-            2,000+
-          </div>
-
-          <div class="stat-label">
-            Room Capacity
-          </div>
-
+            <strong id="requests">3</strong>
+            Requests
         </div>
 
-
-        <div class="stat">
-
-          <div
-            class="stat-number"
-            id="requestCount">
-            2
-          </div>
-
-          <div class="stat-label">
-            Speak Requests
-          </div>
-
-        </div>
-
-      </div>
+    </div>
 
 
-      <!-- SPEAK REQUESTS -->
+    <!-- SPEAK REQUESTS -->
 
-      <div class="panel">
+    <div class="section">
 
-        <div class="panel-header">
+        <h2>🎙 Requests to Speak</h2>
 
-          <h3>
-            Requests to Speak
-          </h3>
+        <div id="requestList">
 
-          <div
-            class="count"
-            id="requestBadge">
-            2
-          </div>
+            <div class="request">
 
-        </div>
+                <div class="person">
 
+                    <div class="avatar">
+                        AO
+                    </div>
 
-        <div id="requests">
+                    <div>
 
-          <!-- REQUEST 1 -->
+                        <div class="name">
+                            Andrew Oche
+                        </div>
 
-          <div
-            class="request"
-            id="request-john">
+                        <div class="status">
+                            Requested to speak
+                        </div>
 
-            <div class="person">
+                    </div>
 
-              <div class="avatar">
-                JS
-              </div>
+                </div>
 
-              <div class="person-info">
+                <div class="actions">
 
-                <strong>
-                  John Samuel
-                </strong>
+                    <button
+                        class="approve"
+                        onclick="approveRequest(this)"
+                    >
+                        ✓ Approve
+                    </button>
 
-                <span>
-                  Requested 1 minute ago
-                </span>
+                    <button
+                        class="reject"
+                        onclick="rejectRequest(this)"
+                    >
+                        ✕ Reject
+                    </button>
 
-              </div>
+                </div>
 
             </div>
 
 
-            <div class="request-buttons">
+            <div class="request">
 
-              <button
-                class="accept"
-                onclick="acceptRequest('request-john','John Samuel','JS')">
+                <div class="person">
 
-                Accept
+                    <div class="avatar">
+                        JM
+                    </div>
 
-              </button>
+                    <div>
 
-              <button
-                class="reject"
-                onclick="rejectRequest('request-john')">
+                        <div class="name">
+                            James Musa
+                        </div>
 
-                Reject
+                        <div class="status">
+                            Requested to speak
+                        </div>
 
-              </button>
+                    </div>
 
-            </div>
+                </div>
 
-          </div>
+                <div class="actions">
 
+                    <button
+                        class="approve"
+                        onclick="approveRequest(this)"
+                    >
+                        ✓ Approve
+                    </button>
 
-          <!-- REQUEST 2 -->
+                    <button
+                        class="reject"
+                        onclick="rejectRequest(this)"
+                    >
+                        ✕ Reject
+                    </button>
 
-          <div
-            class="request"
-            id="request-mary">
-
-            <div class="person">
-
-              <div class="avatar">
-                MA
-              </div>
-
-              <div class="person-info">
-
-                <strong>
-                  Mary Audu
-                </strong>
-
-                <span>
-                  Requested 2 minutes ago
-                </span>
-
-              </div>
+                </div>
 
             </div>
 
 
-            <div class="request-buttons">
+            <div class="request">
 
-              <button
-                class="accept"
-                onclick="acceptRequest('request-mary','Mary Audu','MA')">
+                <div class="person">
 
-                Accept
+                    <div class="avatar">
+                        EK
+                    </div>
 
-              </button>
+                    <div>
 
-              <button
-                class="reject"
-                onclick="rejectRequest('request-mary')">
+                        <div class="name">
+                            Emmanuel Kogi
+                        </div>
 
-                Reject
+                        <div class="status">
+                            Requested to speak
+                        </div>
 
-              </button>
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <button
+                        class="approve"
+                        onclick="approveRequest(this)"
+                    >
+                        ✓ Approve
+                    </button>
+
+                    <button
+                        class="reject"
+                        onclick="rejectRequest(this)"
+                    >
+                        ✕ Reject
+                    </button>
+
+                </div>
 
             </div>
-
-          </div>
 
         </div>
 
-      </div>
+    </div>
 
 
-      <!-- SPEAKERS -->
+    <!-- CURRENT SPEAKERS -->
 
-      <div class="panel">
+    <div class="section">
 
-        <div class="panel-header">
+        <h2>🎤 Current Speakers</h2>
 
-          <h3>
-            Current Speakers
-          </h3>
+        <div id="speakerList">
+
+
+            <div class="speaker">
+
+                <div class="person">
+
+                    <div class="avatar">
+                        JY
+                    </div>
+
+                    <div>
+
+                        <div class="name">
+                            Dr. Pst. Joshua Yahaya
+                        </div>
+
+                        <div class="status">
+                            Founder / President • Speaking
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <button
+                        class="mute"
+                        onclick="muteSpeaker(this)"
+                    >
+                        🔇 Mute
+                    </button>
+
+                    <button
+                        class="remove"
+                        onclick="removeSpeaker(this)"
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="speaker">
+
+                <div class="person">
+
+                    <div class="avatar">
+                        IH
+                    </div>
+
+                    <div>
+
+                        <div class="name">
+                            IKDA Host
+                        </div>
+
+                        <div class="status">
+                            Host • Speaking
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <button
+                        class="mute"
+                        onclick="muteSpeaker(this)"
+                    >
+                        🔇 Mute
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="speaker">
+
+                <div class="person">
+
+                    <div class="avatar">
+                        JS
+                    </div>
+
+                    <div>
+
+                        <div class="name">
+                            John Samuel
+                        </div>
+
+                        <div class="status">
+                            Speaker • Speaking
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <button
+                        class="mute"
+                        onclick="muteSpeaker(this)"
+                    >
+                        🔇 Mute
+                    </button>
+
+                    <button
+                        class="remove"
+                        onclick="removeSpeaker(this)"
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="speaker">
+
+                <div class="person">
+
+                    <div class="avatar">
+                        DO
+                    </div>
+
+                    <div>
+
+                        <div class="name">
+                            David Ojo
+                        </div>
+
+                        <div class="status">
+                            Speaker • Speaking
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <button
+                        class="mute"
+                        onclick="muteSpeaker(this)"
+                    >
+                        🔇 Mute
+                    </button>
+
+                    <button
+                        class="remove"
+                        onclick="removeSpeaker(this)"
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
 
         </div>
 
+    </div>
 
-        <div id="speakers">
 
-          <div class="speaker">
+    <!-- MEETING CONTROLS -->
 
-            <div class="speaker-left">
+    <div class="section">
 
-              <div class="speaker-avatar">
-                IH
-              </div>
+        <h2>⚙ Meeting Controls</h2>
 
-              <div class="speaker-info">
-
-                <strong>
-                  IKDA Host
-                </strong>
-
-                <span>
-                  ● Speaking
-                </span>
-
-              </div>
-
-            </div>
+        <div class="control-grid">
 
             <button
-              class="mute-btn"
-              onclick="muteSpeaker(this)">
-
-              Mute
-
+                class="control"
+                onclick="muteEveryone()"
+            >
+                🔇 Mute Everyone
             </button>
-
-          </div>
-
-
-          <div class="speaker">
-
-            <div class="speaker-left">
-
-              <div class="speaker-avatar">
-                IP
-              </div>
-
-              <div class="speaker-info">
-
-                <strong>
-                  IKDA President
-                </strong>
-
-                <span>
-                  ● Speaking
-                </span>
-
-              </div>
-
-            </div>
 
             <button
-              class="mute-btn"
-              onclick="muteSpeaker(this)">
-
-              Mute
-
+                class="control warning"
+                id="lockButton"
+                onclick="toggleMeetingLock()"
+            >
+                🔒 Lock Meeting
             </button>
 
-          </div>
+            <button
+                class="control success"
+                onclick="openMeeting()"
+            >
+                🟢 Open Meeting
+            </button>
+
+            <button
+                class="control"
+                onclick="showNotice('Meeting settings opened.')"
+            >
+                ⚙ Meeting Settings
+            </button>
+
+            <button
+                class="control"
+                onclick="window.location.href='meeting.html'"
+            >
+                🎧 Return to Meeting
+            </button>
+
+            <button
+                class="control danger"
+                onclick="endMeeting()"
+            >
+                ⛔ End Meeting
+            </button>
 
         </div>
 
-      </div>
+    </div>
 
-    </section>
+</div>
 
 
-    <!-- RIGHT CONTROL PANEL -->
+<div
+    id="notice"
+    class="notice"
+>
+</div>
 
-    <aside class="control-panel">
 
-      <div class="panel">
+<script>
 
-        <h3>
-          Meeting Controls
-        </h3>
+/* ==============================
+   NOTICE
+============================== */
 
-        <br>
+function showNotice(message) {
 
+    const notice =
+        document.getElementById("notice");
 
-        <div class="meeting-status">
+    notice.textContent =
+        message;
 
-          <div class="status-line">
+    notice.classList.add("show");
 
-            <span class="green-dot"></span>
+    setTimeout(function() {
 
-            LIVE
+        notice.classList.remove("show");
 
-          </div>
+    }, 3000);
+}
 
-          <p>
-            IKDA General Live Meeting
-          </p>
 
-        </div>
+/* ==============================
+   APPROVE REQUEST
+============================== */
 
+function approveRequest(button) {
 
-        <button
-          class="control-btn gold"
-          onclick="muteEveryone()">
+    const request =
+        button.closest(".request");
 
-          🔇 Mute Everyone
+    const name =
+        request.querySelector(".name").textContent;
 
-          <span>›</span>
+    request.remove();
 
-        </button>
+    updateRequestCount(-1);
 
+    updateSpeakerCount(1);
 
-        <button
-          class="control-btn"
-          onclick="removeAllSpeakers()">
+    showNotice(
+        name.trim() +
+        " has been approved as a speaker."
+    );
+}
 
-          🎙 Remove All Speakers
 
-          <span>›</span>
+/* ==============================
+   REJECT REQUEST
+============================== */
 
-        </button>
+function rejectRequest(button) {
 
+    const request =
+        button.closest(".request");
 
-        <button
-          class="control-btn"
-          onclick="lockMeeting()">
+    const name =
+        request.querySelector(".name").textContent;
 
-          🔒 Lock Meeting
+    request.remove();
 
-          <span>›</span>
+    updateRequestCount(-1);
 
-        </button>
+    showNotice(
+        name.trim() +
+        "'s request was rejected."
+    );
+}
 
 
-        <button
-          class="control-btn"
-          onclick="unlockMeeting()">
+/* ==============================
+   REQUEST COUNT
+============================== */
 
-          🔓 Unlock Meeting
+function updateRequestCount(amount) {
 
-          <span>›</span>
+    const element =
+        document.getElementById("requests");
 
-        </button>
+    let value =
+        parseInt(element.textContent);
 
+    value += amount;
 
-        <button
-          class="control-btn"
-          onclick="openMeeting()">
-
-          🎧 Open Meeting Room
-
-          <span>›</span>
-
-        </button>
-
-
-        <button
-          class="control-btn danger"
-          onclick="endMeeting()">
-
-          ⛔ End Meeting
-
-          <span>›</span>
-
-        </button>
-
-
-        <!-- INFO -->
-
-        <div class="info">
-
-          <div class="info-row">
-
-            <span>
-              Meeting
-            </span>
-
-            <span>
-              IKDA General Meeting
-            </span>
-
-          </div>
-
-
-          <div class="info-row">
-
-            <span>
-              Type
-            </span>
-
-            <span>
-              Audio
-            </span>
-
-          </div>
-
-
-          <div class="info-row">
-
-            <span>
-              Capacity
-            </span>
-
-            <span>
-              2,000+
-            </span>
-
-          </div>
-
-
-          <div class="info-row">
-
-            <span>
-              Access
-            </span>
-
-            <span>
-              Members
-            </span>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </aside>
-
-  </main>
-
-
-  <!-- TOAST -->
-
-  <div
-    class="toast"
-    id="toast">
-  </div>
-
-
-  <script>
-
-    let requestTotal = 2;
-
-    let speakerTotal = 4;
-
-    let locked = false;
-
-
-    /*
-      TOAST
-    */
-
-    function showToast(message) {
-
-      const toast =
-        document.getElementById("toast");
-
-      toast.textContent = message;
-
-      toast.classList.add("show");
-
-      setTimeout(function() {
-
-        toast.classList.remove("show");
-
-      }, 2500);
-
+    if (value < 0) {
+        value = 0;
     }
 
-
-    /*
-      UPDATE COUNTS
-    */
-
-    function updateCounts() {
-
-      document.getElementById(
-        "requestCount"
-      ).textContent = requestTotal;
-
-      document.getElementById(
-        "requestBadge"
-      ).textContent = requestTotal;
-
-      document.getElementById(
-        "speakerCount"
-      ).textContent = speakerTotal;
-
-    }
+    element.textContent =
+        value;
+}
 
 
-    /*
-      ACCEPT REQUEST
-    */
+/* ==============================
+   SPEAKER COUNT
+============================== */
 
-    function acceptRequest(
-      requestId,
-      name,
-      initials
-    ) {
+function updateSpeakerCount(amount) {
 
-      const request =
-        document.getElementById(requestId);
-
-      if (!request) return;
-
-
-      request.remove();
-
-      requestTotal--;
-
-      speakerTotal++;
-
-
-      const speakers =
+    const element =
         document.getElementById("speakers");
 
+    let value =
+        parseInt(element.textContent);
 
-      const speaker =
-        document.createElement("div");
+    value += amount;
 
-      speaker.className =
-        "speaker";
-
-
-      speaker.innerHTML = `
-
-        <div class="speaker-left">
-
-          <div class="speaker-avatar">
-            ${initials}
-          </div>
-
-          <div class="speaker-info">
-
-            <strong>
-              ${name}
-            </strong>
-
-            <span>
-              ● Speaking
-            </span>
-
-          </div>
-
-        </div>
-
-        <button
-          class="mute-btn"
-          onclick="muteSpeaker(this)">
-
-          Mute
-
-        </button>
-
-      `;
+    element.textContent =
+        value;
+}
 
 
-      speakers.appendChild(speaker);
+/* ==============================
+   MUTE SPEAKER
+============================== */
 
-      updateCounts();
+function muteSpeaker(button) {
 
-      showToast(
-        name +
-        " has been accepted as a speaker."
-      );
+    const speaker =
+        button.closest(".speaker");
+
+    const status =
+        speaker.querySelector(".status");
+
+
+    if (
+        button.dataset.muted === "true"
+    ) {
+
+        button.dataset.muted =
+            "false";
+
+        button.textContent =
+            "🔇 Mute";
+
+        status.textContent =
+            "Speaker • Speaking";
+
+        status.style.color =
+            "#9db1a8";
+
+        showNotice(
+            "Speaker unmuted."
+        );
 
     }
 
+    else {
 
-    /*
-      REJECT REQUEST
-    */
+        button.dataset.muted =
+            "true";
 
-    function rejectRequest(requestId) {
+        button.textContent =
+            "🔊 Unmute";
 
-      const request =
-        document.getElementById(requestId);
+        status.textContent =
+            "Speaker • Muted";
 
-      if (!request) return;
+        status.style.color =
+            "#ff7777";
 
-
-      request.remove();
-
-      requestTotal--;
-
-      updateCounts();
-
-      showToast(
-        "Speaking request rejected."
-      );
-
+        showNotice(
+            "Speaker muted."
+        );
     }
+}
 
 
-    /*
-      MUTE SPEAKER
-    */
+/* ==============================
+   REMOVE SPEAKER
+============================== */
 
-    function muteSpeaker(button) {
+function removeSpeaker(button) {
 
-      if (
-        button.textContent.trim() ===
-        "Mute"
-      ) {
+    const speaker =
+        button.closest(".speaker");
 
-        button.textContent =
-          "Unmute";
+    const name =
+        speaker.querySelector(".name").textContent;
 
-        button.style.color =
-          "#ff9b9b";
+    speaker.remove();
 
+    updateSpeakerCount(-1);
 
-        const speaker =
-          button.closest(".speaker");
-
-        const status =
-          speaker.querySelector(
-            ".speaker-info span"
-          );
-
-        status.textContent =
-          "● Muted";
-
-        status.style.color =
-          "#ff9b9b";
+    showNotice(
+        name.trim() +
+        " was removed from the speaker stage."
+    );
+}
 
 
-        showToast(
-          "Speaker microphone muted."
-        );
+/* ==============================
+   MUTE EVERYONE
+============================== */
 
-      } else {
+function muteEveryone() {
 
-        button.textContent =
-          "Mute";
+    const speakers =
+        document.querySelectorAll(".speaker");
 
-        button.style.color =
-          "";
-
-
-        const speaker =
-          button.closest(".speaker");
+    speakers.forEach(function(speaker) {
 
         const status =
-          speaker.querySelector(
-            ".speaker-info span"
-          );
+            speaker.querySelector(".status");
 
         status.textContent =
-          "● Speaking";
+            "Muted";
 
         status.style.color =
-          "#71e09a";
+            "#ff7777";
 
+        const button =
+            speaker.querySelector(".mute");
 
-        showToast(
-          "Speaker microphone unmuted."
-        );
+        if (button) {
 
-      }
+            button.dataset.muted =
+                "true";
 
-    }
+            button.textContent =
+                "🔊 Unmute";
 
+        }
 
-    /*
-      MUTE EVERYONE
-    */
+    });
 
-    function muteEveryone() {
-
-      const buttons =
-        document.querySelectorAll(
-          ".mute-btn"
-        );
-
-
-      buttons.forEach(function(button) {
-
-        button.textContent =
-          "Unmute";
-
-        button.style.color =
-          "#ff9b9b";
-
-
-        const speaker =
-          button.closest(".speaker");
-
-        const status =
-          speaker.querySelector(
-            ".speaker-info span"
-          );
-
-        status.textContent =
-          "● Muted";
-
-        status.style.color =
-          "#ff9b9b";
-
-      });
-
-
-      showToast(
+    showNotice(
         "All speakers have been muted."
-      );
+    );
+}
+
+
+/* ==============================
+   LOCK MEETING
+============================== */
+
+let meetingLocked = false;
+
+
+function toggleMeetingLock() {
+
+    const button =
+        document.getElementById("lockButton");
+
+    meetingLocked =
+        !meetingLocked;
+
+
+    if (meetingLocked) {
+
+        button.innerHTML =
+            "🔓 Unlock Meeting";
+
+        button.classList.add("danger");
+
+        showNotice(
+            "Meeting locked. New participants cannot join."
+        );
 
     }
 
+    else {
 
-    /*
-      REMOVE ALL SPEAKERS
-    */
+        button.innerHTML =
+            "🔒 Lock Meeting";
 
-    function removeAllSpeakers() {
+        button.classList.remove("danger");
 
-      if (
-        !confirm(
-          "Remove all current speakers?"
-        )
-      ) {
-        return;
-      }
+        showNotice(
+            "Meeting unlocked."
+        );
+
+    }
+}
 
 
-      const speakers =
-        document.querySelectorAll(
-          ".speaker"
+/* ==============================
+   OPEN MEETING
+============================== */
+
+function openMeeting() {
+
+    meetingLocked =
+        false;
+
+    const button =
+        document.getElementById("lockButton");
+
+    button.innerHTML =
+        "🔒 Lock Meeting";
+
+    button.classList.remove("danger");
+
+    showNotice(
+        "Meeting is now open."
+    );
+}
+
+
+/* ==============================
+   END MEETING
+============================== */
+
+function endMeeting() {
+
+    const confirmEnd =
+        confirm(
+            "Are you sure you want to end the IKDA LIVE meeting?"
         );
 
 
-      speakers.forEach(function(speaker) {
-
-        speaker.remove();
-
-      });
-
-
-      speakerTotal = 0;
-
-      updateCounts();
-
-      showToast(
-        "All speakers have been removed."
-      );
-
-    }
-
-
-    /*
-      LOCK MEETING
-    */
-
-    function lockMeeting() {
-
-      locked = true;
-
-      showToast(
-        "Meeting locked. New members cannot join."
-      );
-
-    }
-
-
-    /*
-      UNLOCK MEETING
-    */
-
-    function unlockMeeting() {
-
-      locked = false;
-
-      showToast(
-        "Meeting unlocked."
-      );
-
-    }
-
-
-    /*
-      OPEN MEETING
-    */
-
-    function openMeeting() {
-
-      window.location.href =
-        "meeting.html";
-
-    }
-
-
-    /*
-      END MEETING
-    */
-
-    function endMeeting() {
-
-      if (
-        !confirm(
-          "Are you sure you want to end this meeting?"
-        )
-      ) {
+    if (!confirmEnd) {
         return;
-      }
+    }
 
 
-      showToast(
+    showNotice(
         "Meeting ended."
-      );
+    );
 
 
-      setTimeout(function() {
+    setTimeout(function() {
 
         window.location.href =
-          "index.html";
+            "index.html";
 
-      }, 1200);
+    }, 1500);
+}
 
-    }
-
-
-    /*
-      DEMO PARTICIPANT COUNT
-    */
-
-    let participants = 527;
-
-
-    setInterval(function() {
-
-      const change =
-        Math.floor(
-          Math.random() * 7
-        ) - 2;
-
-
-      participants += change;
-
-
-      if (participants < 500) {
-        participants = 500;
-      }
-
-
-      document.getElementById(
-        "participantCount"
-      ).textContent =
-        participants;
-
-    }, 5000);
-
-  </script>
+</script>
 
 </body>
 </html>
