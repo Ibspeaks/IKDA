@@ -2,113 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
   <title>IKDA Live</title>
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
     }
 
     body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #061b14, #0b3d2e);
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
       color: white;
+      min-height: 100vh;
     }
 
     header {
-      text-align: center;
+      background: #111c33;
       padding: 25px 15px;
-      background: rgba(0,0,0,0.3);
+      text-align: center;
+      border-bottom: 1px solid #263552;
     }
 
     header h1 {
-      color: #ffd700;
+      margin: 0;
       font-size: 32px;
     }
 
     header p {
-      margin-top: 6px;
-      color: #ddd;
+      margin: 8px 0 0;
+      color: #b8c4d8;
     }
 
     .container {
       width: 92%;
-      max-width: 600px;
-      margin: 35px auto;
+      max-width: 500px;
+      margin: 40px auto;
     }
 
     .card {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
+      background: #111c33;
+      border: 1px solid #263552;
       border-radius: 20px;
       padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
-    .card h2 {
+    h2 {
       text-align: center;
-      color: #ffd700;
-      margin-bottom: 25px;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 7px;
+      color: #c8d2e3;
     }
 
     input {
       width: 100%;
       padding: 15px;
-      margin-bottom: 15px;
-      border: none;
       border-radius: 10px;
+      border: 1px solid #3a4b69;
+      background: #182640;
+      color: white;
       font-size: 16px;
       outline: none;
     }
 
+    input:focus {
+      border-color: #4da3ff;
+    }
+
     button {
       width: 100%;
+      margin-top: 20px;
       padding: 15px;
       border: none;
       border-radius: 10px;
-      margin-top: 8px;
-      font-size: 16px;
+      background: #1976d2;
+      color: white;
+      font-size: 17px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    .join {
-      background: #ffd700;
-      color: #111;
-    }
-
     .create {
-      background: #16a085;
-      color: white;
+      background: #2e7d32;
     }
 
-    .message {
-      display: none;
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.1);
+    .divider {
       text-align: center;
+      margin: 20px 0;
+      color: #8492a8;
     }
 
     .info {
-      text-align: center;
-      margin-top: 25px;
-      color: #bbb;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #182640;
+      color: #b8c4d8;
       font-size: 14px;
-      line-height: 1.6;
-    }
-
-    footer {
-      text-align: center;
-      color: #999;
-      padding: 25px;
-      font-size: 13px;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -124,198 +123,197 @@
 
   <div class="card">
 
-    <h2>Join Live Audio Meeting</h2>
+    <h2>Join IKDA Live</h2>
+
+    <label for="name">
+      Your Name
+    </label>
 
     <input
+      id="name"
       type="text"
-      id="participantName"
-      placeholder="Enter your full name"
+      placeholder="Enter your name"
       autocomplete="name"
     >
 
+    <label for="meetingCode">
+      Meeting Code
+    </label>
+
     <input
-      type="text"
       id="meetingCode"
-      placeholder="Enter meeting code"
-      autocomplete="off"
+      type="text"
+      placeholder="Example: IKDA2026"
+      maxlength="20"
     >
 
     <button
-      class="join"
-      onclick="joinMeeting()">
-      🎙️ Join Meeting
-    </button>
-
-    <button
       class="create"
-      onclick="createMeeting()">
-      ➕ Create New Meeting
+      id="createBtn"
+    >
+      Create New Meeting
     </button>
 
-    <div
-      class="message"
-      id="loginMessage">
+    <div class="divider">
+      OR
     </div>
 
+    <button id="joinBtn">
+      Join Meeting
+    </button>
+
     <div class="info">
-      Enter your name and meeting code to join an
-      IKDA Live audio meeting.
-      <br><br>
-      Your microphone will be requested when you
-      enter the meeting.
+      <strong>IKDA Live Audio</strong><br><br>
+      Enter your name and meeting code.
+      Everyone using the same meeting code
+      will enter the same audio room.
     </div>
 
   </div>
 
 </div>
 
-<footer>
-  © 2026 IKDA Live — Igala Kingdom Descendants Association
-</footer>
-
-
 <script>
 
-  // ============================================
-  // SHOW MESSAGE
-  // ============================================
+const nameInput =
+  document.getElementById("name");
 
-  function showMessage(message) {
+const codeInput =
+  document.getElementById("meetingCode");
 
-    const box =
-      document.getElementById("loginMessage");
+const createBtn =
+  document.getElementById("createBtn");
 
-    box.innerText = message;
-
-    box.style.display = "block";
-
-  }
+const joinBtn =
+  document.getElementById("joinBtn");
 
 
-  // ============================================
-  // CREATE NEW MEETING
-  // ============================================
+/* Generate meeting code */
 
-  function createMeeting() {
+function generateMeetingCode() {
 
-    const name =
-      document
-        .getElementById("participantName")
-        .value
-        .trim();
+  const characters =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+  let code = "";
 
-    if (!name) {
+  for (let i = 0; i < 6; i++) {
 
-      showMessage(
-        "Please enter your full name first."
-      );
-
-      return;
-
-    }
-
-
-    const characters =
-      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-
-    let meetingCode = "";
-
-
-    for (
-      let i = 0;
-      i < 6;
-      i++
-    ) {
-
-      meetingCode +=
-        characters.charAt(
-          Math.floor(
-            Math.random() *
-            characters.length
-          )
-        );
-
-    }
-
-
-    document
-      .getElementById("meetingCode")
-      .value =
-      meetingCode;
-
-
-    joinMeeting();
+    code += characters.charAt(
+      Math.floor(
+        Math.random() * characters.length
+      )
+    );
 
   }
 
+  return code;
 
-  // ============================================
-  // JOIN MEETING
-  // ============================================
+}
 
-  function joinMeeting() {
+
+/* Save user information */
+
+function saveUser() {
+
+  const name =
+    nameInput.value.trim();
+
+  const code =
+    codeInput.value.trim().toUpperCase();
+
+  if (!name) {
+
+    alert("Please enter your name.");
+
+    return null;
+
+  }
+
+  if (!code) {
+
+    alert("Please enter a meeting code.");
+
+    return null;
+
+  }
+
+  localStorage.setItem(
+    "ikdaParticipantName",
+    name
+  );
+
+  localStorage.setItem(
+    "ikdaMeetingCode",
+    code
+  );
+
+  return code;
+
+}
+
+
+/* Create meeting */
+
+createBtn.addEventListener(
+  "click",
+  () => {
 
     const name =
-      document
-        .getElementById("participantName")
-        .value
-        .trim();
-
-
-    const meetingCode =
-      document
-        .getElementById("meetingCode")
-        .value
-        .trim()
-        .toUpperCase();
-
+      nameInput.value.trim();
 
     if (!name) {
 
-      showMessage(
-        "Please enter your full name."
-      );
+      alert("Please enter your name.");
 
       return;
 
     }
 
+    const code =
+      generateMeetingCode();
 
-    if (!meetingCode) {
+    nameInput.value =
+      name;
 
-      showMessage(
-        "Please enter a meeting code."
-      );
+    codeInput.value =
+      code;
 
-      return;
-
-    }
-
-
-    // Save participant name
     localStorage.setItem(
       "ikdaParticipantName",
       name
     );
 
-
-    // Save meeting code
     localStorage.setItem(
       "ikdaMeetingCode",
-      meetingCode
+      code
     );
 
-
-    // Open meeting room
     window.location.href =
       "meeting.html?room=" +
-      encodeURIComponent(
-        meetingCode
-      );
+      encodeURIComponent(code);
 
   }
+);
+
+
+/* Join existing meeting */
+
+joinBtn.addEventListener(
+  "click",
+  () => {
+
+    const code =
+      saveUser();
+
+    if (!code) return;
+
+    window.location.href =
+      "meeting.html?room=" +
+      encodeURIComponent(code);
+
+  }
+);
 
 </script>
 
