@@ -1,37 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register | IKDA LIVE</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #061b14;
+    color: #ffffff;
+    padding: 25px 15px;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+    background: #0d2b20;
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid #c8a64b;
+}
+
+.logo {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #e6c45a;
+}
+
+.subtitle {
+    text-align: center;
+    color: #d4d4d4;
+    margin-bottom: 25px;
+}
+
+h2 {
+    text-align: center;
+    color: #e6c45a;
+}
+
+label {
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #48695b;
+    border-radius: 7px;
+    background: #071e16;
+    color: white;
+    font-size: 15px;
+}
+
+.checkbox {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 18px;
+}
+
+.checkbox input {
+    width: auto;
+    margin-top: 4px;
+}
+
+button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 14px;
+    border: none;
+    border-radius: 7px;
+    background: #d6b449;
+    color: #092016;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.6;
+}
+
+.message {
+    text-align: center;
+    margin-top: 16px;
+    overflow-wrap: anywhere;
+}
+
+.links {
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.8;
+}
+
+a {
+    color: #e6c45a;
+}
+
+.footer {
+    text-align: center;
+    color: #b8c7bf;
+    font-size: 12px;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="logo">IKDA LIVE</div>
+    <div class="subtitle">
+        Igala Kingdom Descendant Association<br>
+        Peace and Unity
+    </div>
+
+    <h2>Create Your Account</h2>
+
+    <form id="registerForm">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" type="text" autocomplete="name"
+               placeholder="Enter your full name" required>
+
+        <label for="email">Email Address</label>
+        <input id="email" type="email" autocomplete="email"
+               placeholder="Enter your email" required>
+
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="tel" autocomplete="tel"
+               placeholder="Enter your phone number" required>
+
+        <label for="state">State</label>
+        <select id="state" required>
+            <option value="">Select your state</option>
+            <option>Abia</option>
+            <option>Adamawa</option>
+            <option>Akwa Ibom</option>
+            <option>Anambra</option>
+            <option>Bauchi</option>
+            <option>Bayelsa</option>
+            <option>Benue</option>
+            <option>Borno</option>
+            <option>Cross River</option>
+            <option>Delta</option>
+            <option>Ebonyi</option>
+            <option>Edo</option>
+            <option>Ekiti</option>
+            <option>Enugu</option>
+            <option>FCT</option>
+            <option>Gombe</option>
+            <option>Imo</option>
+            <option>Jigawa</option>
+            <option>Kaduna</option>
+            <option>Kano</option>
+            <option>Katsina</option>
+            <option>Kebbi</option>
+            <option>Kogi</option>
+            <option>Kwara</option>
+            <option>Lagos</option>
+            <option>Nasarawa</option>
+            <option>Niger</option>
+            <option>Ogun</option>
+            <option>Ondo</option>
+            <option>Osun</option>
+            <option>Oyo</option>
+            <option>Plateau</option>
+            <option>Rivers</option>
+            <option>Sokoto</option>
+            <option>Taraba</option>
+            <option>Yobe</option>
+            <option>Zamfara</option>
+        </select>
+
+        <label for="lga">Local Government Area (LGA)</label>
+        <input id="lga" type="text"
+               placeholder="Enter your LGA" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password"
+               autocomplete="new-password"
+               placeholder="At least 6 characters"
+               minlength="6" required>
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" type="password"
+               autocomplete="new-password"
+               placeholder="Re-enter your password" required>
+
+        <div class="checkbox">
+            <input id="terms" type="checkbox" required>
+            <label for="terms" style="margin:0">
+                I agree to the IKDA LIVE terms of use.
+            </label>
+        </div>
+
+        <button id="registerButton" type="submit">
+            Create Account
+        </button>
+
+        <div id="message" class="message" role="status"
+             aria-live="polite"></div>
+    </form>
+
+    <div class="links">
+        Already have an account?
+        <a href="login.html">Sign in</a>
+        <br>
+        <a href="index.html">Return to Home</a>
+    </div>
+
+    <div class="footer">
+        © IKDA LIVE — Igala Kingdom Descendant Association
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
 <script>
 const form = document.getElementById("registerForm");
 const message = document.getElementById("message");
+const button = document.getElementById("registerButton");
 
-form.addEventListener("submit", async function(e) {
-    e.preventDefault();
+form.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
     const fullName = document.getElementById("fullName").value.trim();
     const email = document.getElementById("email").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const state = document.getElementById("state").value;
-    const lga = document.getElementById("lga").value;
+    const lga = document.getElementById("lga").value.trim();
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
-    if (!fullName || !email || !phone || !state || !lga || !password) {
-        message.textContent = "Please complete all required fields.";
-        return;
-    }
-
     if (password !== confirmPassword) {
-        message.textContent = "Passwords do not match.";
+        message.textContent = "Your passwords do not match.";
         return;
     }
 
     if (password.length < 6) {
-        message.textContent = "Password must be at least 6 characters.";
+        message.textContent = "Password must contain at least 6 characters.";
         return;
     }
 
-    message.textContent = "Creating your IKDA account...";
+    if (!window.supabaseClient && typeof supabaseClient === "undefined") {
+        message.textContent =
+            "Supabase configuration was not loaded. Please check supabase.js.";
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Creating account...";
+    message.textContent = "Connecting to IKDA LIVE...";
 
     try {
-        const { data, error } = await supabaseClient.auth.signUp({
+        const client = typeof supabaseClient !== "undefined"
+            ? supabaseClient
+            : window.supabaseClient;
+
+        const { data, error } = await client.auth.signUp({
             email: email,
             password: password,
             options: {
@@ -40,32 +276,40 @@ form.addEventListener("submit", async function(e) {
                     phone: phone,
                     state: state,
                     lga: lga
-                }
+                },
+                emailRedirectTo: window.location.origin +
+                    window.location.pathname.replace(
+                        /[^/]*$/, "login.html"
+                    )
             }
         });
 
-        if (error) {
-            throw error;
-        }
+        if (error) throw error;
 
-        message.textContent = "Account created successfully!";
-
-        // Store basic information locally for the current website session
         localStorage.setItem("ikdaUser", JSON.stringify({
-            fullName: fullName,
-            email: email,
-            phone: phone,
-            state: state,
-            lga: lga
+            fullName, email, phone, state, lga
         }));
 
-        setTimeout(() => {
+        if (data.session) {
+            message.textContent =
+                "Account created! Opening the meeting...";
             window.location.href = "meeting.html";
-        }, 1000);
+        } else {
+            message.textContent =
+                "Account created! Check your email to confirm it, then sign in.";
+            button.disabled = false;
+            button.textContent = "Create Account";
+        }
 
     } catch (error) {
-        console.error(error);
-        message.textContent = error.message || "Registration failed.";
+        console.error("IKDA registration error:", error);
+        message.textContent = error.message ||
+            "Registration failed. Please try again.";
+        button.disabled = false;
+        button.textContent = "Create Account";
     }
 });
 </script>
+
+</body>
+</html>
