@@ -1,321 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IKDA LIVE - Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<title>Member Login | IKDA LIVE</title>
 
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top, rgba(212, 175, 55, 0.12), transparent 35%),
-        #06140f;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    .container {
-      width: 100%;
-      max-width: 430px;
-    }
+body {
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    color: white;
+    background: #061b14;
+}
 
-    .logo {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+.container {
+    width: 100%;
+    max-width: 430px;
+    padding: 30px;
+    background: #0d2b20;
+    border: 1px solid #c8a64b;
+    border-radius: 16px;
+}
 
-    .logo-circle {
-      width: 75px;
-      height: 75px;
-      margin: auto;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #d4af37, #8f7115);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #06140f;
-      font-size: 25px;
-      font-weight: bold;
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
-    }
+.logo {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #e6c45a;
+}
 
-    .logo h1 {
-      margin-top: 12px;
-      color: #d4af37;
-      font-size: 28px;
-    }
+.subtitle {
+    text-align: center;
+    color: #ddd;
+    line-height: 1.6;
+}
 
-    .logo p {
-      color: #a9b8b2;
-      margin-top: 5px;
-      font-size: 14px;
-    }
+h2 {
+    text-align: center;
+    color: #e6c45a;
+    margin-top: 28px;
+}
 
-    .card {
-      background: #0c211a;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 18px;
-      padding: 30px 25px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-    }
+label {
+    display: block;
+    margin: 18px 0 7px;
+}
 
-    .card h2 {
-      text-align: center;
-      margin-bottom: 8px;
-    }
+input {
+    width: 100%;
+    padding: 13px;
+    border-radius: 7px;
+    border: 1px solid #48695b;
+    background: #071e16;
+    color: white;
+    font-size: 16px;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #91a29b;
-      font-size: 14px;
-      margin-bottom: 25px;
-    }
+.password-row {
+    display: flex;
+    gap: 8px;
+}
 
-    .input-group {
-      margin-bottom: 18px;
-    }
+.password-row input {
+    flex: 1;
+    min-width: 0;
+}
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 14px;
-      color: #d9e2de;
-    }
+.password-row button {
+    width: auto;
+    margin-top: 0;
+    padding: 0 12px;
+}
 
-    input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 10px;
-      border: 1px solid #28473b;
-      background: #071812;
-      color: white;
-      outline: none;
-      font-size: 15px;
-    }
+button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 14px;
+    border: none;
+    border-radius: 7px;
+    background: #d6b449;
+    color: #092016;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
 
-    input:focus {
-      border-color: #d4af37;
-      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
-    }
+button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
 
-    .password-box {
-      position: relative;
-    }
+.message {
+    margin-top: 17px;
+    text-align: center;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
 
-    .password-box input {
-      padding-right: 60px;
-    }
+.links {
+    text-align: center;
+    margin-top: 20px;
+    line-height: 2;
+}
 
-    .show-password {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: #d4af37;
-      cursor: pointer;
-      font-size: 13px;
-    }
+a {
+    color: #e6c45a;
+}
 
-    .forgot {
-      text-align: right;
-      margin-top: -8px;
-      margin-bottom: 20px;
-    }
-
-    .forgot a {
-      color: #d4af37;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #d4af37, #b58e20);
-      color: #071812;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .login-btn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.08);
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 25px 0;
-      color: #65766f;
-      font-size: 13px;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      height: 1px;
-      background: #28473b;
-      flex: 1;
-    }
-
-    .register {
-      text-align: center;
-      color: #91a29b;
-      font-size: 14px;
-    }
-
-    .register a {
-      color: #d4af37;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .back {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .back a {
-      color: #91a29b;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    .message {
-      display: none;
-      margin-bottom: 15px;
-      padding: 11px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 13px;
-      background: rgba(212, 175, 55, 0.1);
-      color: #d4af37;
-    }
-  </style>
+.small {
+    text-align: center;
+    color: #b8c7bf;
+    font-size: 12px;
+    margin-top: 22px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="logo">
-      <div class="logo-circle">IKDA</div>
-      <h1>IKDA LIVE</h1>
-      <p>Igala Kingdom Descendant Association</p>
+    <div class="logo">IKDA LIVE</div>
+
+    <div class="subtitle">
+        Igala Kingdom Descendant Association<br>
+        Peace and Unity
     </div>
 
-    <div class="card">
+    <h2>Member Sign In</h2>
 
-      <h2>Welcome Back</h2>
-      <p class="subtitle">Sign in to join IKDA Live meetings</p>
+    <form id="loginForm">
 
-      <div class="message" id="message"></div>
-
-      <form id="loginForm">
-
-        <div class="input-group">
-          <label for="email">Email Address</label>
-          <input
-            type="email"
+        <label for="email">Email Address</label>
+        <input
             id="email"
-            placeholder="Enter your email"
+            type="email"
+            autocomplete="username"
+            placeholder="Enter your registered email"
             required
-          >
-        </div>
+        >
 
-        <div class="input-group">
-          <label for="password">Password</label>
+        <label for="password">Password</label>
 
-          <div class="password-box">
+        <div class="password-row">
             <input
-              type="password"
-              id="password"
-              placeholder="Enter your password"
-              required
+                id="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Enter your password"
+                required
             >
 
             <button
-              type="button"
-              class="show-password"
-              onclick="togglePassword()"
-            >
-              Show
-            </button>
-          </div>
+                type="button"
+                id="togglePassword"
+                aria-label="Show password"
+            >Show</button>
         </div>
 
-        <div class="forgot">
-          <a href="#">Forgot password?</a>
-        </div>
-
-        <button class="login-btn" type="submit">
-          Sign In
+        <button type="submit" id="loginButton">
+            Sign In & Join Meeting
         </button>
 
-      </form>
+        <div
+            class="message"
+            id="message"
+            role="status"
+            aria-live="polite"
+        ></div>
 
-      <div class="divider">OR</div>
+    </form>
 
-      <div class="register">
+    <div class="links">
         Don't have an account?
-        <a href="register.html">Create Account</a>
-      </div>
-
+        <a href="register.html">Register here</a>
+        <br>
+        <a href="index.html">Return to Home</a>
     </div>
 
-    <div class="back">
-      <a href="index.html">← Back to IKDA LIVE</a>
+    <div class="small">
+        Secure member access · IKDA LIVE
     </div>
 
-  </div>
+</div>
 
-  <script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
 
-    function togglePassword() {
-      const password = document.getElementById("password");
-      const button = document.querySelector(".show-password");
+<script>
+const form = document.getElementById("loginForm");
+const message = document.getElementById("message");
+const button = document.getElementById("loginButton");
+const passwordInput = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
 
-      if (password.type === "password") {
-        password.type = "text";
-        button.textContent = "Hide";
-      } else {
-        password.type = "password";
-        button.textContent = "Show";
-      }
+togglePassword.addEventListener("click", function () {
+    const showing = passwordInput.type === "text";
+
+    passwordInput.type = showing ? "password" : "text";
+    togglePassword.textContent = showing ? "Show" : "Hide";
+    togglePassword.setAttribute(
+        "aria-label",
+        showing ? "Show password" : "Hide password"
+    );
+});
+
+form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = passwordInput.value;
+
+    if (!email || !password) {
+        message.textContent = "Enter your email and password.";
+        return;
     }
 
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+    let client;
 
-      const message = document.getElementById("message");
+    if (typeof supabaseClient !== "undefined") {
+        client = supabaseClient;
+    } else if (window.supabaseClient) {
+        client = window.supabaseClient;
+    }
 
-      message.style.display = "block";
-      message.textContent = "Demo login successful. Connecting to IKDA LIVE...";
+    if (!client) {
+        message.textContent =
+            "Supabase did not load. Please check supabase.js.";
+        return;
+    }
 
-      setTimeout(() => {
-        window.location.href = "join.html";
-      }, 1200);
-    });
+    button.disabled = true;
+    button.textContent = "Signing in...";
+    message.textContent = "Verifying your account...";
 
-  </script>
+    try {
+        const { data, error } = await client.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data.session) {
+            throw new Error(
+                "No active session was created. Please try again."
+            );
+        }
+
+        message.textContent = "Login successful! Opening IKDA LIVE...";
+
+        localStorage.setItem("ikdaLoggedIn", "true");
+
+        setTimeout(function () {
+            window.location.href = "meeting.html";
+        }, 800);
+
+    } catch (error) {
+        console.error("IKDA login error:", error);
+
+        if (error.message.toLowerCase().includes("email not confirmed")) {
+            message.textContent =
+                "Please confirm your email before signing in.";
+        } else {
+            message.textContent =
+                error.message || "Login failed. Please try again.";
+        }
+
+        button.disabled = false;
+        button.textContent = "Sign In & Join Meeting";
+    }
+});
+</script>
 
 </body>
 </html>
